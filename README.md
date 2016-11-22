@@ -1,4 +1,4 @@
-# Readme #
+# LLVM Version Manager
 
 LLVMVM is a tool for installing and managing different versions of LLVM on a single system.
 
@@ -34,7 +34,7 @@ List the llvmvm releases available for download
     Usage: llvmvm install [version] [options]
         -n,  Override the default name
         -B,  Install from binary
-        -c,  Pass flags to CMAKE
+        -c,  Override CMAKE flags
 
 Install release 3.9.0 final from source
 
@@ -55,7 +55,11 @@ Install revision 217292
 
 Install the trunk
 
-    llvm install trunk
+    llvmvm install trunk
+
+Install a debug build of the trunk with a custom name
+
+    llvmvm install trunk -c DCMAKE_BUILD_TYPE=Debug -n trunk-debug
 
 Put the binaries from release 3.9.0 in the path
 
