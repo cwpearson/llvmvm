@@ -9,7 +9,8 @@ read_command_line() {
 		display_fatal "Please provide a version to install"
 	fi
 
-	LLVM_NAME="$1"
+	LLVM_ID="$1"
+	LLVM_NAME="$LLVM_ID"
 	shift
 
 	if [ -z ${1+x} ]; then
@@ -19,14 +20,25 @@ read_command_line() {
 	fi
 }
 
-download_source() {
+download_llvm_source() {
 	local LOG="$LLVMVM_ROOT/logs/llvm-download.log"
     mkdir -p "$LLVMVM_ROOT/logs"
     mkdir -p "$LLVM_SRC"
 
 	llvmvm_display_message "Downloading LLVM source..."
-	svn co "$LLVM_SOURCE_URL" "$LLVM_SRC" >> "$LLVMVM_ROOT/logs/llvm-download.log"  2>&1 ||
+	echo "$LLVM_SOURCE_URL > $LLVM_SRC"
+	svn co "$LLVM_SOURCE_URL" "$LLVM_SRC" >> "$LOG"  2>&1 ||
 		llvmvm_display_fatal "Couldn't download LLVM source. Check $LOG"
+}
+
+download_clang_source() {
+	local LOG="$LLVMVM_ROOT/logs/clang-download.log"
+    mkdir -p "$LLVMVM_ROOT/logs"
+
+	llvmvm_display_message "Downloading Clang source..."
+	echo "$CLANG_SOURCE_URL > $CLANG_SRC"
+	svn co "$CLANG_SOURCE_URL" "$CLANG_SRC" >> "$LOG"  2>&1 ||
+		llvmvm_display_fatal "Couldn't download Clang source. Check $LOG"
 }
 
 create_environment() {
@@ -63,7 +75,7 @@ build_source() {
 }
 
 install_source() {
-    mkdir -p $LLVM_INS
+    mkdir -p "$LLVM_INS"
 	llvmvm_display_message "Installing LLVM..."
     nice -n20 make -C $LLVM_OBJ install -j8
 }
@@ -72,20 +84,29 @@ echo "install arguments:" "$@"
 
 read_command_line "$@"
 
-llvmvm_get_url_for_name "$LLVM_NAME" # sets 'result'
+llvmvm_get_llvm_url_for_id "$LLVM_ID" # sets 'result'
 LLVM_SOURCE_URL="$result"
+llvmvm_get_clang_url_for_id "$LLVM_ID" # sets 'result'
+CLANG_SOURCE_URL="$result"
 
-llvmvm_get_path_for_name "$LLVM_NAME"
-LLVMVM_LLVM_PATH="$result"
+if [[ "$LLVM_NAME" == "$LLVM_ID" ]]; then # default name
+	llvmvm_get_path_for_id "$LLVM_ID"
+	LLVMVM_LLVM_PATH="$result"
+else 
+	llvmvm_get_path_for_name "$LLVM_NAME"
+	LLVMVM_LLVM_PATH="$result"
+fi
 
-echo "$LLVM_SOURCE_URL" ">" "$LLVMVM_LLVM_PATH"
+
 
 BASE="$LLVMVM_LLVM_PATH"
 LLVM_SRC="$BASE/src"
+CLANG_SRC="$BASE/src/tools/clang"
 LLVM_OBJ="$BASE/obj"
 LLVM_INS="$BASE/ins"
 
-download_source
+download_llvm_source
+download_clang_source
 configure_source
 build_source
 install_source

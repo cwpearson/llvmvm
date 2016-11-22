@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-function llvmvm_split_name() {
+function llvmvm_split_id() {
     local release_re="release([[:digit:]\.]+)([a-z0-9]*)"
     local rev_re="r([[:digit:]]+)"
 
@@ -25,17 +25,17 @@ function llvmvm_split_name() {
     fi
 }
 
-function llvmvm_get_url_for_name() {
-    echo "In bash function get_url_for_name"
+function llvmvm_get_llvm_url_for_id() {
+    echo "In bash function llvmvm_get_llvm_url_from_id"
 
     local svn_tag_url="http://llvm.org/svn/llvm-project/llvm/tags"
     local svn_trunk_url="http://llvm.org/svn/llvm-project/llvm/trunk"
 
-    llvmvm_split_name "$1"
+    llvmvm_split_id "$1"
 
     if [[ "$LLVMVM_TAG" == "release" ]]; then
       local url="$svn_tag_url/RELEASE_$LLVMVM_VER/$LLVMVM_REL"
-    elif [[ $LLVMVM_TAG == "r" ]]; then
+    elif [[ "$LLVMVM_TAG" == "r" ]]; then
       local url="$svn_trunk_url"
     elif [[ "$LLVMVM_TAG" == "trunk" ]]; then
       local url="$svn_trunk_url"
@@ -44,9 +44,28 @@ function llvmvm_get_url_for_name() {
     result="$url"
 }
 
-function llvmvm_get_path_for_name() {
+function llvmvm_get_clang_url_for_id() {
+    echo "In bash function llvmvm_get_clang_url_from_id"
 
-  llvmvm_split_name "$1"
+    local svn_tag_url="http://llvm.org/svn/llvm-project/cfe/tags"
+    local svn_trunk_url="http://llvm.org/svn/llvm-project/cfe/trunk"
+
+    llvmvm_split_id "$1"
+
+    if [[ "$LLVMVM_TAG" == "release" ]]; then
+      local url="$svn_tag_url/RELEASE_$LLVMVM_VER/$LLVMVM_REL"
+    elif [[ "$LLVMVM_TAG" == "r" ]]; then
+      local url="$svn_trunk_url"
+    elif [[ "$LLVMVM_TAG" == "trunk" ]]; then
+      local url="$svn_trunk_url"
+    fi
+
+    result="$url"
+}
+
+function llvmvm_get_path_for_id() {
+
+  llvmvm_split_id "$1"
 
   if [[ "$LLVMVM_TAG" == "release" ]]; then
     local path="${LLVMVM_TAG}_${LLVMVM_VER}_${LLVMVM_REL}"
@@ -57,4 +76,8 @@ function llvmvm_get_path_for_name() {
   fi
 
   result="$LLVMVM_ROOT/llvms/$path"
+}
+
+function llvmvm_get_path_for_name() {
+  result="$LLVMVM_ROOT/llvms/$1"
 }
