@@ -16,8 +16,8 @@ Warning - this will delete `~/.llvmvm/bin` and `~/.llvmvm/scripts`
 
 ## Quick Start
 
-    llvm install release390final
-    llvm use release390final
+    llvmvm install release390final
+    llvmvm use release390final
 
 ### List LLVM versions
 
