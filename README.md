@@ -57,9 +57,10 @@ Install the trunk
 
     llvmvm install trunk
 
-Install a debug build of the trunk with a custom name
+Install and use a debug build of the trunk with a custom name
 
     llvmvm install trunk -c DCMAKE_BUILD_TYPE=Debug -n trunk-debug
+    llvmvm use tunk-debug
 
 Put the binaries from release 3.9.0 in the path
 
