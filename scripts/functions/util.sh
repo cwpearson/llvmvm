@@ -16,13 +16,30 @@ function llvmvm_split_id() {
       LLVMVM_VER="${BASH_REMATCH[1]}"
       LLVMVM_REL=""
     elif [[ "$1" == "trunk" ]]; then
-      LLMVVM_TAG="trunk"
+      LLVMVM_TAG="trunk"
       LLVMVM_VER=""
       LLVMVM_REL=""
     else
-      display_error "Unexpected install argument in llvmvm_get_url_for_name"
+      llvmvm_display_error "Unexpected argument in llvmvm_split_id:" $1
       return
     fi
+}
+
+function llvmvm_svn_tag_to_name() {
+    local release_re="RELEASE_([[:digit:]]+)/*([a-z0-9]*)"
+
+    local NAME="release_"
+
+    if [[ "$1" =~ $release_re ]]; then
+      NAME="${NAME}${BASH_REMATCH[1]//.}" #remove '.'s
+      if [[ "${BASH_REMATCH[2]}" ]]; then
+        NAME="${NAME}_${BASH_REMATCH[2]}"
+      fi
+    else
+      llvmvm_display_error "Unexpected argument in llvmvm_svn_tag_to_name:" $1
+      return
+    fi
+    RESULT="$NAME"
 }
 
 function llvmvm_get_llvm_url_for_id() {
@@ -63,7 +80,7 @@ function llvmvm_get_clang_url_for_id() {
     result="$url"
 }
 
-function llvmvm_get_path_for_id() {
+function llvmvm_id_to_name() {
 
   llvmvm_split_id "$1"
 
