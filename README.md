@@ -71,3 +71,4 @@ Put the binaries from release 3.9.0 in the path
 * Binary downloads
 * Custom build flags
 * Custom names for installs
+* Updating trunk install
