@@ -14,9 +14,9 @@ Warning - this will delete `~/.llvmvm/bin` and `~/.llvmvm/scripts`
 
 ## Using
 
-## Quick Start
+### Quick Start
 
-    llvmvm install release390final
+    llvmvm install release_390_final
     llvmvm use release_390_final
 
 ### List LLVM versions
@@ -65,3 +65,9 @@ Install and use a debug build of the trunk with a custom name
 Put the binaries from release 3.9.0 in the path
 
     llvmvm use release3.9.0
+
+## Upcoming
+
+* Binary downloads
+* Custom build flags
+* Custom names for installs
