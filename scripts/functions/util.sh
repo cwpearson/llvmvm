@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
 function llvmvm_split_id() {
-    local release_re="release([[:digit:]\.]+)([a-z0-9]*)"
+    local release_re="release[_]?([[:digit:]\.]+)[_]?([a-z0-9]*)"
     local rev_re="r([[:digit:]]+)"
 
     if [[ "$1" =~ $release_re ]]; then

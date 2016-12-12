@@ -6,18 +6,32 @@ set -eou pipefail
 
 read_command_line() {
 	if [ -z ${1+x} ]; then
-		display_fatal "Please provide a version to install"
+		llvmvm_display_fatal "Please provide a version to install"
 	fi
 
 	LLVM_ID="$1"
 	LLVM_NAME="$LLVM_ID"
 	shift
 
-	if [ -z ${1+x} ]; then
-		:
-	else
-		llvmvm_display_error "More than zero flags provided. Perhaps that function is not implemented."
-	fi
+	IS_BINARY_INSTALL=false
+	CUSTOM_CMAKE_FLAGS=""
+	while getopts "Bc:n:" arg; do
+	  case "$arg" in
+	  	B)
+		  echo "B triggered"
+		  echo "doing binary download"
+		  IS_BINARY_INSTALL=true
+		  ;;
+		c)
+		  echo "c is ${OPTARG}"
+		  echo "using custom cmake flags"
+		  ;;
+		n)
+		  echo "n is ${OPTARG}"
+		  echo "using custom name"
+		  ;;
+      esac
+	done
 }
 
 download_llvm_source() {
@@ -47,7 +61,6 @@ create_environment() {
 	mkdir -p "$(dirname "$new_env_file")" && touch "$new_env_file"
 
 	echo "export LLVMVM_ROOT; LLVMVM_ROOT=\"$LLVMVM_ROOT\"" > "$new_env_file"
-
 	echo "export PATH; PATH=\"\${LLVMVM_ROOT}/llvms/${LLVM_NAME}/ins/bin:\${LLVMVM_ROOT}/bin:\${PATH}\"" >> "$new_env_file"
 	echo "export LD_LIBRARY_PATH; LD_LIBRARY_PATH=\"\${LD_LIBRARY_PATH}\"" >> "$new_env_file"
 	echo "export DYLD_LIBRARY_PATH; DYLD_LIBRARY_PATH=\"\${DYLD_LIBRARY_PATH}\"" >> "$new_env_file"
@@ -63,7 +76,16 @@ configure_source() {
 	local LOG="$LLVMVM_ROOT/logs/llvm-configure.log"
 	mkdir -p "$LLVM_OBJ"
 	llvmvm_display_message "Configuring LLVM..."
-	nice -n20 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$LLVM_INS -B$LLVM_OBJ -H$LLVM_SRC >> "$LOG" 2>&1 ||
+
+	CMAKE_FLAGS="$CUSTOM_CMAKE_FLAGS"
+	if [[ -z "$CMAKE_FLAGS" ]]; then
+		CMAKE_FLAGS="-DCMAKE_BUILD_TYPE=Release"
+	fi
+	# CMAKE_FLAGS="$CMAKE_FLAGS -DCMAKE_INSTALL_PREFIX=$LLVM_INS -B$LLVM_OBJ -H$LLVM_SRC"
+	CMAKE_FLAGS="$CMAKE_FLAGS -DCMAKE_INSTALL_PREFIX=$LLVM_INS -B$LLVM_OBJ -H$LLVM_SRC"
+	echo "Using cmake flags: $CMAKE_FLAGS"
+	pwd
+	nice -n20 cmake "$CMAKE_FLAGS" "$LLVM_SRC" >> "$LOG" 2>&1 ||
 		llvmvm_display_fatal "Couldn't configure LLVM. Check $LOG"
 }
 
@@ -89,15 +111,8 @@ LLVM_SOURCE_URL="$result"
 llvmvm_get_clang_url_for_id "$LLVM_ID" # sets 'result'
 CLANG_SOURCE_URL="$result"
 
-if [[ "$LLVM_NAME" == "$LLVM_ID" ]]; then # default name
-	llvmvm_get_path_for_id "$LLVM_ID"
-	LLVMVM_LLVM_PATH="$result"
-else 
-	llvmvm_get_path_for_name "$LLVM_NAME"
-	LLVMVM_LLVM_PATH="$result"
-fi
-
-
+llvmvm_get_path_for_name "$LLVM_NAME"
+LLVMVM_LLVM_PATH="$result"
 
 BASE="$LLVMVM_LLVM_PATH"
 LLVM_SRC="$BASE/src"
@@ -105,9 +120,17 @@ CLANG_SRC="$BASE/src/tools/clang"
 LLVM_OBJ="$BASE/obj"
 LLVM_INS="$BASE/ins"
 
-download_llvm_source
-download_clang_source
-configure_source
-build_source
-install_source
+if [[ "$IS_BINARY_INSTALL" ]]; then
+    download_llvm_source
+    download_clang_source
+    configure_source
+    build_source
+    install_source
+else
+	echo "Binary install!"
+	llvmvm_get_version_for_id "$LLVM_ID"
+    download_llvm_binary
+	download_clang_binary
+	install_binaries
+fi
 create_environment
