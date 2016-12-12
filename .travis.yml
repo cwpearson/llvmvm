@@ -1,0 +1,9 @@
+language: bash
+before_install:
+ - sudo apt-get install git -yqq
+
+before_script:
+ - ./install.sh
+ - source ~/.llvmvm/scripts/llvmvm.sh
+script:
+ - llvmvm install release3.9.0
