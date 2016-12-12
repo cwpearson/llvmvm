@@ -1,5 +1,7 @@
 # LLVM Version Manager
 
+[![Build Status](https://travis-ci.org/cwpearson/llvmvm.svg?branch=master)](https://travis-ci.org/cwpearson/llvmvm)
+
 LLVMVM is a tool for installing and managing different versions of LLVM on a single system.
 
 *LLVMVM is very beta, use at your own risk.*
