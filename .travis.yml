@@ -1,10 +1,18 @@
 language: bash
+
+addons:
+  apt:
+    sources:
+      sourceline: ppa:george-edison55/cmake-3.4.3
+
 before_install:
  - sudo apt-get install git -yqq
+ - sudo apt update cmake
 
 before_script:
  - ./install.sh
  - source ~/.llvmvm/scripts/llvmvm.sh
+
 script:
  - llvmvm install release3.9.0
  - llvmvm install release3.9.0 -B
