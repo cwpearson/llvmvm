@@ -1,13 +1,15 @@
 language: bash
 
-addons:
-  apt:
-    sources:
-      sourceline: ppa:george-edison55/cmake-3.4.3
-
 before_install:
  - sudo apt-get install git -yqq
  - sudo apt upgrade cmake
+ - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
+  CMAKE_URL="https://cmake.org/files/v3.4/cmake-3.4.3-Linux-x86_64.tar.gz"
+  mkdir cmake && travis_retry wget --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
+  export PATH=${DEPS_DIR}/cmake/bin:${PATH}
+else
+  brew install cmake
+fi
 
 before_script:
  - ./install.sh
