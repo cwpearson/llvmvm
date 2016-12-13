@@ -79,14 +79,16 @@ configure_source() {
 
 	CMAKE_FLAGS="$CUSTOM_CMAKE_FLAGS"
 	if [[ -z "$CMAKE_FLAGS" ]]; then
+		# CMAKE_FLAGS="-DCMAKE_BUILD_TYPE=Release"
 		CMAKE_FLAGS="-DCMAKE_BUILD_TYPE=Release"
 	fi
-	# CMAKE_FLAGS="$CMAKE_FLAGS -DCMAKE_INSTALL_PREFIX=$LLVM_INS -B$LLVM_OBJ -H$LLVM_SRC"
 	CMAKE_FLAGS="$CMAKE_FLAGS -DCMAKE_INSTALL_PREFIX=$LLVM_INS -B$LLVM_OBJ -H$LLVM_SRC"
-	echo "Using cmake flags: $CMAKE_FLAGS"
-	pwd
-	nice -n20 cmake "$CMAKE_FLAGS" "$LLVM_SRC" >> "$LOG" 2>&1 ||
-		llvmvm_display_fatal "Couldn't configure LLVM. Check $LOG"
+	nice -n20 cmake $CMAKE_FLAGS >> "$LOG" 2>&1 ||
+		{
+			{ echo "" && tail "$LOG"; } ||
+			llvmvm_display_fatal "Couldn't configure LLVM. Tail of $LOG above."
+		}
+
 }
 
 build_source() {
