@@ -25,6 +25,7 @@ read_command_line() {
 		c)
 		  echo "c is ${OPTARG}"
 		  echo "using custom cmake flags"
+		  CUSTOM_CMAKE_FLAGS="${OPTARG}"
 		  ;;
 		n)
 		  echo "n is ${OPTARG}"
@@ -75,14 +76,17 @@ create_environment() {
 configure_source() {
 	local LOG="$LLVMVM_ROOT/logs/llvm-configure.log"
 	mkdir -p "$LLVM_OBJ"
-	llvmvm_display_message "Configuring LLVM..."
+
 
 	CMAKE_FLAGS="$CUSTOM_CMAKE_FLAGS"
+	echo $CMAKE_FLAGS
 	if [[ -z "$CMAKE_FLAGS" ]]; then
 		# CMAKE_FLAGS="-DCMAKE_BUILD_TYPE=Release"
 		CMAKE_FLAGS="-DCMAKE_BUILD_TYPE=Release"
 	fi
 	CMAKE_FLAGS="$CMAKE_FLAGS -DCMAKE_INSTALL_PREFIX=$LLVM_INS -B$LLVM_OBJ -H$LLVM_SRC"
+
+	llvmvm_display_message "Configuring LLVM... with $CMAKE_FLAGS"
 	nice -n20 cmake $CMAKE_FLAGS >> "$LOG" 2>&1 ||
 		{
 			{ echo "" && tail "$LOG"; } ||

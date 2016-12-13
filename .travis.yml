@@ -7,3 +7,6 @@ before_script:
  - source ~/.llvmvm/scripts/llvmvm.sh
 script:
  - llvmvm install release3.9.0
+ - llvmvm install release3.9.0 -B
+ - llvmvm install release3.9.0 -c '-DCMAKE_BUILD_TYPE=Debug'
+ - llvmvm install release3.9.0 -c '-DCMAKE_BUILD_TYPE=Debug;-DLLVM_TARGETS_TO_BUILD="X86"'
