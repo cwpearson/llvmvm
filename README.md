@@ -4,6 +4,8 @@ master: [![Build Status](https://travis-ci.org/cwpearson/llvmvm.svg?branch=maste
 
 develop: [![Build Status](https://travis-ci.org/cwpearson/llvmvm.svg?branch=develop)](https://travis-ci.org/cwpearson/llvmvm)
 
+master: [![wercker status](https://app.wercker.com/status/b5a51ab46fc9191005343be11e1f2563/m/master "wercker status")](https://app.wercker.com/project/byKey/b5a51ab46fc9191005343be11e1f2563)
+
 LLVMVM is a tool for installing and managing different versions of LLVM on a single system.
 
 *LLVMVM is very beta, use at your own risk.*
