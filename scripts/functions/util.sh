@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-function llvmvm_split_id() {
+function llvmvm_split_tag() {
     local release_re="release[_]?([[:digit:]\.]+)[_]?([a-z0-9]*)"
     local rev_re="r([[:digit:]]+)"
 
@@ -42,59 +42,40 @@ function llvmvm_svn_tag_to_name() {
     RESULT="$NAME"
 }
 
-function llvmvm_get_llvm_url_for_id() {
-    echo "In bash function llvmvm_get_llvm_url_from_id"
+function llvmvm_get_llvm_url_for_tag() {
+    echo "In bash function llvmvm_get_llvm_url_for_tag"
 
     local svn_tag_url="http://llvm.org/svn/llvm-project/llvm/tags"
     local svn_trunk_url="http://llvm.org/svn/llvm-project/llvm/trunk"
 
-    llvmvm_split_id "$1"
-
-    if [[ "$LLVMVM_TAG" == "release" ]]; then
-      local url="$svn_tag_url/RELEASE_$LLVMVM_VER/$LLVMVM_REL"
-    elif [[ "$LLVMVM_TAG" == "r" ]]; then
-      local url="$svn_trunk_url"
-    elif [[ "$LLVMVM_TAG" == "trunk" ]]; then
-      local url="$svn_trunk_url"
+    if [[ "$1" == "trunk" ]]; then
+      local url="$svn_trunk_url";
+    else
+      local url="$svn_tag_url/$1";
     fi
 
     result="$url"
 }
 
-function llvmvm_get_clang_url_for_id() {
-    echo "In bash function llvmvm_get_clang_url_from_id"
+function llvmvm_get_clang_url_for_tag() {
+    echo "In bash function llvmvm_get_clang_url_for_id"
 
     local svn_tag_url="http://llvm.org/svn/llvm-project/cfe/tags"
     local svn_trunk_url="http://llvm.org/svn/llvm-project/cfe/trunk"
 
-    llvmvm_split_id "$1"
-
-    if [[ "$LLVMVM_TAG" == "release" ]]; then
-      local url="$svn_tag_url/RELEASE_$LLVMVM_VER/$LLVMVM_REL"
-    elif [[ "$LLVMVM_TAG" == "r" ]]; then
-      local url="$svn_trunk_url"
-    elif [[ "$LLVMVM_TAG" == "trunk" ]]; then
-      local url="$svn_trunk_url"
+    if [[ "$1" == "trunk" ]]; then
+      local url="$svn_trunk_url";
+    else
+      local url="$svn_tag_url/$1";
     fi
 
     result="$url"
 }
 
-function llvmvm_id_to_name() {
-
-  llvmvm_split_id "$1"
-
-  if [[ "$LLVMVM_TAG" == "release" ]]; then
-    local path="${LLVMVM_TAG}_${LLVMVM_VER}_${LLVMVM_REL}"
-  elif [[ $LLVMVM_TAG == "r" ]]; then
-    local path="$LLVM_TAG$LLVMVM_VER"
-  elif [[ "$LLVMVM_TAG" == "trunk" ]]; then
-    local path="$LLVM_TAG"
-  fi
-
-  result="$LLVMVM_ROOT/llvms/$path"
+function llvmvm_get_path_for_name() {
+  result="$LLVMVM_ROOT/llvms/$1"
 }
 
-function llvmvm_get_path_for_name() {
+function llvmvm_get_path_for_tag() {
   result="$LLVMVM_ROOT/llvms/$1"
 }

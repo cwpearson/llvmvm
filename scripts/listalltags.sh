@@ -18,15 +18,11 @@ for tag in $TAGS; do
     for d in $SUBDIRS; do
       if [[ "$tag$d" =~ $LIST_RE ]]; then
         PRINT_ROOT=0
-        # echo "trying $tag$d"
-        llvmvm_svn_tag_to_name "$tag$d"
-        echo "$RESULT"
+        echo "$tag$d"
       fi
     done
     if [[ $PRINT_ROOT == 1 ]]; then
-      # echo "trying $tag"
-      llvmvm_svn_tag_to_name "$tag"
-      echo "$RESULT"
+      echo "$tag"
     fi
   else
    :

@@ -5,12 +5,11 @@ set -eou pipefail
 . "$LLVMVM_ROOT/scripts/functions.sh"
 
 read_command_line() {
-	if [ -z ${1+x} ]; then
+	if [[ -z ${1+x} ]]; then
 		llvmvm_display_fatal "Please provide a version to install"
 	fi
 
-	LLVM_ID="$1"
-	LLVM_NAME="$LLVM_ID"
+	LLVM_TAG="$1"
 	shift
 
 	IS_BINARY_INSTALL=false
@@ -29,7 +28,8 @@ read_command_line() {
 		  ;;
 		n)
 		  echo "n is ${OPTARG}"
-		  echo "using custom name"
+		  echo "custom name not supported!"
+		  exit -1
 		  ;;
       esac
 	done
@@ -57,18 +57,18 @@ download_clang_source() {
 }
 
 create_environment() {
-	local new_env_file="$LLVMVM_ROOT/environments/$LLVM_NAME"
+	local new_env_file="$LLVMVM_ROOT/environments/$LLVM_TAG"
 
 	mkdir -p "$(dirname "$new_env_file")" && touch "$new_env_file"
 
 	echo "export LLVMVM_ROOT; LLVMVM_ROOT=\"$LLVMVM_ROOT\"" > "$new_env_file"
-	echo "export PATH; PATH=\"\${LLVMVM_ROOT}/llvms/${LLVM_NAME}/ins/bin:\${LLVMVM_ROOT}/bin:\${PATH}\"" >> "$new_env_file"
+	echo "export PATH; PATH=\"\${LLVMVM_ROOT}/llvms/${LLVM_TAG}/ins/bin:\${LLVMVM_ROOT}/bin:\${PATH}\"" >> "$new_env_file"
 	echo "export LD_LIBRARY_PATH; LD_LIBRARY_PATH=\"\${LD_LIBRARY_PATH}\"" >> "$new_env_file"
 	echo "export DYLD_LIBRARY_PATH; DYLD_LIBRARY_PATH=\"\${DYLD_LIBRARY_PATH}\"" >> "$new_env_file"
 
 	. "$LLVMVM_ROOT/scripts/env/use.sh"
 	#. "$LLVMVM_ROOT/scripts/env/implode.sh"
-	llvmvm_use "$LLVM_NAME" &> /dev/null ||
+	llvmvm_use "$LLVM_TAG" &> /dev/null ||
 		llvmvm_display_fatal "Failed to use installed version"
 
 }
@@ -112,12 +112,11 @@ echo "install arguments:" "$@"
 
 read_command_line "$@"
 
-llvmvm_get_llvm_url_for_id "$LLVM_ID" # sets 'result'
+llvmvm_get_llvm_url_for_tag "$LLVM_TAG" # sets 'result'
 LLVM_SOURCE_URL="$result"
-llvmvm_get_clang_url_for_id "$LLVM_ID" # sets 'result'
+llvmvm_get_clang_url_for_tag "$LLVM_TAG" # sets 'result'
 CLANG_SOURCE_URL="$result"
-
-llvmvm_get_path_for_name "$LLVM_NAME"
+llvmvm_get_path_for_tag "$LLVM_TAG" # sets 'result'
 LLVMVM_LLVM_PATH="$result"
 
 BASE="$LLVMVM_LLVM_PATH"
