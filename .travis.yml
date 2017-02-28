@@ -17,4 +17,4 @@ before_script:
  - cmake --version
 
 script:
- - llvmvm install release_391_final
+ - travis_wait 60 llvmvm install release_391_final
