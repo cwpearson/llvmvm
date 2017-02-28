@@ -11,8 +11,11 @@ before_install:
     fi'
 
 before_script:
- - ./install.sh
- - source ~/.llvmvm/scripts/llvmvm.sh
+ - echo ${DEPS_DIR}
+ - echo $PATH
+ - pwd
+ - ls
+ - ./install.sh && source ~/.llvmvm/scripts/llvmvm.sh
  - which cmake
 
 script:
