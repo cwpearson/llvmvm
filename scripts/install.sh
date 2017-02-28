@@ -101,13 +101,22 @@ build_source() {
 	local LOG="$LLVMVM_ROOT/logs/llvm-build.log"
 	llvmvm_display_message "Building LLVM..."
 	nice -n20 make -C $LLVM_OBJ -j$(nproc) >> "$LOG" 2>&1 ||
-		llvmvm_display_fatal "Couldn't build LLVM. Check $LOG"
+		{
+			{ echo "" && tail "$LOG"; } ||
+			llvmvm_display_fatal "Couldn't build LLVM. Tail of $LOG above."
+		}
+
 }
 
 install_source() {
+	local LOG="$LLVMVM_ROOT/logs/llvm-install.log"
     mkdir -p "$LLVM_INS"
 	llvmvm_display_message "Installing LLVM..."
-    nice -n20 make -C $LLVM_OBJ install -j$(nproc)
+    nice -n20 make -C $LLVM_OBJ install -j$(nproc) >> "$LOG" 2>&1 ||
+		{
+			{ echo "" && tail "$LOG"; } ||
+			llvmvm_display_fatal "Couldn't install LLVM. Tail of $LOG above."
+		}
 }
 
 echo "install arguments:" "$@"
