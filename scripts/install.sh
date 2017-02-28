@@ -17,19 +17,16 @@ read_command_line() {
 	while getopts "Bc:n:" arg; do
 	  case "$arg" in
 	  	B)
-		  echo "B triggered"
-		  echo "doing binary download"
+		  echo "Installing binaries"
 		  IS_BINARY_INSTALL=true
 		  ;;
 		c)
 		  echo "c is ${OPTARG}"
-		  echo "using custom cmake flags"
-		  CUSTOM_CMAKE_FLAGS="${OPTARG}"
+		  CUSTOM_CMAKE_FLAGS="${CUSTOM_CMAKE_FLAGS} ${OPTARG}"
 		  ;;
 		n)
 		  echo "n is ${OPTARG}"
-		  echo "custom name not supported!"
-		  exit -1
+		  llvmvm_display_fatal "custom name not supported!"
 		  ;;
       esac
 	done
@@ -83,7 +80,6 @@ configure_source() {
 	CMAKE_FLAGS="$CUSTOM_CMAKE_FLAGS"
 	echo $CMAKE_FLAGS
 	if [[ -z "$CMAKE_FLAGS" ]]; then
-		# CMAKE_FLAGS="-DCMAKE_BUILD_TYPE=Release"
 		CMAKE_FLAGS="-DCMAKE_BUILD_TYPE=Release"
 	fi
 	CMAKE_FLAGS="$CMAKE_FLAGS -DCMAKE_INSTALL_PREFIX=$LLVM_INS -B$LLVM_OBJ -H$LLVM_SRC"
