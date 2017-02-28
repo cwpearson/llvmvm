@@ -57,12 +57,14 @@ download_clang_source() {
 }
 
 create_environment() {
-	local new_env_file="$LLVMVM_ROOT/environments/$LLVM_TAG"
+	local new_env_file="$LLVMVM_ROOT/environments/$LLVM_ID"
 
 	mkdir -p "$(dirname "$new_env_file")" && touch "$new_env_file"
+	llvmvm_get_name_for_id "$LLVM_ID"
+	local name="$result"
 
 	echo "export LLVMVM_ROOT; LLVMVM_ROOT=\"$LLVMVM_ROOT\"" > "$new_env_file"
-	echo "export PATH; PATH=\"\${LLVMVM_ROOT}/llvms/${LLVM_TAG}/ins/bin:\${LLVMVM_ROOT}/bin:\${PATH}\"" >> "$new_env_file"
+	echo "export PATH; PATH=\"\${LLVMVM_ROOT}/llvms/${path}/ins/bin:\${LLVMVM_ROOT}/bin:\${PATH}\"" >> "$new_env_file"
 	echo "export LD_LIBRARY_PATH; LD_LIBRARY_PATH=\"\${LD_LIBRARY_PATH}\"" >> "$new_env_file"
 	echo "export DYLD_LIBRARY_PATH; DYLD_LIBRARY_PATH=\"\${DYLD_LIBRARY_PATH}\"" >> "$new_env_file"
 

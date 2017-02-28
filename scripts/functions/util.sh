@@ -92,8 +92,8 @@ function llvmvm_get_clang_url_for_id() {
     result="$url"
 }
 
-function llvmvm_get_path_for_id() {
-  llvmvm_split_id "$1"
+function llvmvm_get_name_for_id() {
+    llvmvm_split_id "$1"
 
   if [[ "$LLVMVM_TAG" == "release" ]]; then
     local path="release_$LLVMVM_VER/$LLVMVM_REL"
@@ -103,7 +103,12 @@ function llvmvm_get_path_for_id() {
     local path="trunk"
   fi
 
-  result="$LLVMVM_ROOT/llvms/$1"
+  result="$path"
+}
+
+function llvmvm_get_path_for_id() {
+  llvmvm_get_name_for_id "$1"
+  result="$LLVMVM_ROOT/llvms/$result"
 }
 
 # function llvmvm_get_path_for_name() {
