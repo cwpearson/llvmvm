@@ -18,7 +18,8 @@ for tag in $TAGS; do
     for d in $SUBDIRS; do
       if [[ "$tag$d" =~ $LIST_RE ]]; then
         PRINT_ROOT=0
-        echo "$tag$d"
+        llvmvm_tag_to_id "$tag$d"
+        echo "$result"
       fi
     done
     if [[ $PRINT_ROOT == 1 ]]; then

@@ -9,7 +9,7 @@ read_command_line() {
 		llvmvm_display_fatal "Please provide a version to install"
 	fi
 
-	LLVM_TAG="$1"
+	LLVM_ID="$1"
 	shift
 
 	IS_BINARY_INSTALL=false
@@ -98,25 +98,25 @@ configure_source() {
 build_source() {
 	local LOG="$LLVMVM_ROOT/logs/llvm-build.log"
 	llvmvm_display_message "Building LLVM..."
-	nice -n20 make -C $LLVM_OBJ -j8 >> "$LOG" 2>&1 ||
+	nice -n20 make -C $LLVM_OBJ -j$(nproc) >> "$LOG" 2>&1 ||
 		llvmvm_display_fatal "Couldn't build LLVM. Check $LOG"
 }
 
 install_source() {
     mkdir -p "$LLVM_INS"
 	llvmvm_display_message "Installing LLVM..."
-    nice -n20 make -C $LLVM_OBJ install -j8
+    nice -n20 make -C $LLVM_OBJ install -j$(nproc)
 }
 
 echo "install arguments:" "$@"
 
 read_command_line "$@"
 
-llvmvm_get_llvm_url_for_tag "$LLVM_TAG" # sets 'result'
+llvmvm_get_llvm_url_for_id "$LLVM_ID" # sets 'result'
 LLVM_SOURCE_URL="$result"
-llvmvm_get_clang_url_for_tag "$LLVM_TAG" # sets 'result'
+llvmvm_get_clang_url_for_id "$LLVM_ID" # sets 'result'
 CLANG_SOURCE_URL="$result"
-llvmvm_get_path_for_tag "$LLVM_TAG" # sets 'result'
+llvmvm_get_path_for_id "$LLVM_ID" # sets 'result'
 LLVMVM_LLVM_PATH="$result"
 
 BASE="$LLVMVM_LLVM_PATH"

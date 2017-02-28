@@ -14,10 +14,25 @@ Warning - this will delete `~/.llvmvm/bin` and `~/.llvmvm/scripts`
 
 ## Using
 
-### Quick Start
+### Quick Start (installing from source)
 
-    llvmvm install release_390_final
-    llvmvm use release_390_final
+Check supported LLVM tags
+
+    llvmvm listalltags
+
+Choose a tag to install
+
+    llvmvm install RELEASE_391/final
+
+Add the installed version to the path
+
+    llvmvm use RELEASE_391/final
+
+### Quick Start (installing binaries)
+
+Coming soon\*...
+
+\* whenever I get to it.
 
 ### List LLVM versions
 
@@ -25,25 +40,19 @@ List the versions of LLVM that are installed
 
     llvmvm list
 
-List the llvmvm releases available for download
+List the llvmvm sources available for download
 
-    llvmvm listall
+    llvmvm listalltags
 
 ### Installing LLVM
 
     Usage: llvmvm install [version] [options]
-        -n,  Override the default name
         -B,  Install from binary
         -c,  Override CMAKE flags
 
-Install release 3.9.0 final from source
+Install a tag
 
-    llvmvm install release390
-    llvmvm install release3.9.0final
-
-Install release 3.9.0 rc1 from source
-
-    llvmvm install release3.9.0rc1
+    llvmvm install RELEASE_391/final
 
 Install release 3.9.0 binaries
 
@@ -72,3 +81,4 @@ Put the binaries from release 3.9.0 in the path
 * Custom build flags
 * Custom names for installs
 * Updating trunk install
+* Choose to keep/remove object files
