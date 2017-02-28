@@ -11,15 +11,8 @@ before_install:
     fi'
 
 before_script:
- - echo ${DEPS_DIR}
- - echo $PATH
- - pwd
- - ls
  - ./install.sh && source ~/.llvmvm/scripts/llvmvm.sh
- - which cmake
+ - cmake --version
 
 script:
- - llvmvm install release3.9.0
- - llvmvm install release3.9.0 -B
- - llvmvm install release3.9.0 -c '-DCMAKE_BUILD_TYPE=Debug'
- - llvmvm install release3.9.0 -c '-DCMAKE_BUILD_TYPE=Debug;-DLLVM_TARGETS_TO_BUILD="X86"'
+ - llvmvm install release_391_final
