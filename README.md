@@ -22,17 +22,11 @@ Check supported LLVM tags
 
 Choose a tag to install
 
-    llvmvm install RELEASE_391/final
+    llvmvm install release_391_final
 
 Add the installed version to the path
 
-    llvmvm use RELEASE_391/final
-
-### Quick Start (installing binaries)
-
-Coming soon\*...
-
-\* whenever I get to it.
+    llvmvm use release_391_final
 
 ### List LLVM versions
 
@@ -44,19 +38,11 @@ List the llvmvm sources available for download
 
     llvmvm listalltags
 
-### Installing LLVM
+### Advanced LLVM
 
     Usage: llvmvm install [version] [options]
         -B,  Install from binary
         -c,  Override CMAKE flags
-
-Install a tag
-
-    llvmvm install RELEASE_391/final
-
-Install release 3.9.0 binaries
-
-    llvmvm install release390 -B
 
 Install revision 217292
 
@@ -66,19 +52,15 @@ Install the trunk
 
     llvmvm install trunk
 
-Install and use a debug build of the trunk with a custom name
+Install and use a debug build of the trunk
 
-    llvmvm install trunk -c DCMAKE_BUILD_TYPE=Debug -n trunk-debug
-    llvmvm use tunk-debug
-
-Put the binaries from release 3.9.0 in the path
-
-    llvmvm use release3.9.0
+    llvmvm install trunk -c DCMAKE_BUILD_TYPE=Debug
+    llvm use trunk
 
 ## Upcoming
 
 * Binary downloads
-* Custom build flags
+* ~~Custom build flags~~
 * Custom names for installs
-* Updating trunk install
-* Choose to keep/remove object files
+* Updating an install if trunk
+* Choose to keep or remove source and object files
