@@ -1,12 +1,6 @@
 language: bash
-
-addons:
-  apt:
-    sources:
-    - ubuntu-toolchain-r-test
-    packages:
-    - gcc-4.8
-    - g++-4.8
+dist: trusty
+sudo: false
 
 before_install:
  - 'if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
