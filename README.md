@@ -6,7 +6,7 @@
 [travis-master]: https://travis-ci.org/cwpearson/llvmvm.svg?branch=master
 [travis-develop]: https://travis-ci.org/cwpearson/llvmvm.svg?branch=develop
 
-LLVMVM is a tool for installing and managing different versions of LLVM on a single system.
+LLVMVM is a tool for installing and managing different versions of LLVM on a single system. It presently works for relatively recent versions of LLVM.
 
 *LLVMVM is very beta, use at your own risk.*
 
@@ -17,6 +17,10 @@ Inspired very heavily by [gvm](https://github.com/moovweb/gvm).
 Warning - this will delete `~/.llvmvm/bin` and `~/.llvmvm/scripts`
 
     ./install.sh && source ~/.llvmvm/scripts/llvmvm.sh
+
+## Removing
+
+Remove `~/.llvmvm` and open a new terminal.
 
 ## Using
 
@@ -30,7 +34,7 @@ Choose a tag to install
 
     llvmvm install release_391_final
 
-Add the installed version to the path
+Add the installed version to the path. This must be done for every new terminal.
 
     llvmvm use release_391_final
 
@@ -47,7 +51,6 @@ List the llvmvm sources available for download
 ### Advanced LLVM
 
     Usage: llvmvm install [version] [options]
-        -B,  Install from binary
         -c,  Override CMAKE flags
 
 Install revision 217292
@@ -65,8 +68,8 @@ Install and use a debug build of the trunk
 
 ## Upcoming
 
+* ~~Custom CMAKE build flags~~
+* Updating a trunk install
 * Binary downloads
-* ~~Custom build flags~~
 * Custom names for installs
-* Updating an install if trunk
 * Choose to keep or remove source and object files
