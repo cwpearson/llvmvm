@@ -96,14 +96,14 @@ function llvmvm_get_name_for_id() {
     llvmvm_split_id "$1"
 
   if [[ "$LLVMVM_TAG" == "release" ]]; then
-    local path="release_${LLVMVM_VER}_${LLVMVM_REL}"
+    local name="release_${LLVMVM_VER}_${LLVMVM_REL}"
   elif [[ "$LLVMVM_TAG" == "r" ]]; then
-    local path="r$LLVMVM_VER"
+    local name="r$LLVMVM_VER"
   elif [[ "$LLVMVM_TAG" == "trunk" ]]; then
-    local path="trunk"
+    local name="trunk"
   fi
 
-  result="$path"
+  result="$name"
 }
 
 function llvmvm_get_path_for_id() {

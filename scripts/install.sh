@@ -61,13 +61,13 @@ create_environment() {
 	local name="$result"
 
 	echo "export LLVMVM_ROOT; LLVMVM_ROOT=\"$LLVMVM_ROOT\"" > "$new_env_file"
-	echo "export PATH; PATH=\"\${LLVMVM_ROOT}/llvms/${path}/ins/bin:\${LLVMVM_ROOT}/bin:\${PATH}\"" >> "$new_env_file"
+	echo "export PATH; PATH=\"\${LLVMVM_ROOT}/llvms/${name}/ins/bin:\${LLVMVM_ROOT}/bin:\${PATH}\"" >> "$new_env_file"
 	echo "export LD_LIBRARY_PATH; LD_LIBRARY_PATH=\"\${LD_LIBRARY_PATH}\"" >> "$new_env_file"
 	echo "export DYLD_LIBRARY_PATH; DYLD_LIBRARY_PATH=\"\${DYLD_LIBRARY_PATH}\"" >> "$new_env_file"
 
 	. "$LLVMVM_ROOT/scripts/env/use.sh"
 	#. "$LLVMVM_ROOT/scripts/env/implode.sh"
-	llvmvm_use "$LLVM_TAG" &> /dev/null ||
+	llvmvm_use "$LLVM_ID" &> /dev/null ||
 		llvmvm_display_fatal "Failed to use installed version"
 
 }
