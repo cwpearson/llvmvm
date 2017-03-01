@@ -1,0 +1,16 @@
+box: debian
+
+build:
+  steps:
+    - script:
+        name: install
+        code: |
+          ./install.sh
+    - script:
+        name: source
+        code: |
+          source ~/.llvmvm/scripts/llvmvm.sh
+    - script:
+        name: install
+        code: |
+            llvmvm install release_390_final
