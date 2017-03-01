@@ -24,6 +24,8 @@ Remove `~/.llvmvm` and open a new terminal.
 
 ## Using
 
+In a new terminal, run `source ~/.llvmvm/scripts/llvmvm.sh`.
+
 ### Quick Start (installing from source)
 
 Check supported LLVM tags
