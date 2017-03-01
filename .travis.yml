@@ -3,7 +3,7 @@ dist: trusty
 sudo: false
 
 before_install:
- - 'if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
+  - 'if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
       CMAKE_URL="https://cmake.org/files/v3.4/cmake-3.4.3-Linux-x86_64.tar.gz";
       mkdir cmake && travis_retry curl -s ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake || travis_terminate 1;
       export PATH=${PWD}/cmake/bin:${PATH} || travis_terminate 1;
@@ -11,10 +11,12 @@ before_install:
     else
       brew install cmake || travis_terminate 1;
     fi'
+  - cmake --version
 
 before_script:
  - ./install.sh && source ~/.llvmvm/scripts/llvmvm.sh
- - cmake --version
 
 script:
  - travis_wait 60 llvmvm install release_391_final
+ - llc --version
+ 
