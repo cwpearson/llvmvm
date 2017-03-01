@@ -18,5 +18,8 @@ before_script:
 
 script:
  - travis_wait 60 llvmvm install release_391_final
- - llc --version
- 
+ - llcpath=`which llc` && \
+   echo $llcpath && \
+   'if [[ "$llcpath" != *".llvmvm"* ]]; then
+      exit 1;
+    fi'
