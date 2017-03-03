@@ -14,9 +14,11 @@ read_command_line() {
 
 	IS_BINARY_INSTALL=false
 	CUSTOM_CMAKE_FLAGS=""
+	CUSTOM_NAME=""
 	while getopts "Bc:n:" arg; do
 	  case "$arg" in
 	  	B)
+		  llvmvm_display_fatal "Binardy download not supported!"
 		  echo "Installing binaries"
 		  IS_BINARY_INSTALL=true
 		  ;;
@@ -25,7 +27,8 @@ read_command_line() {
 		  CUSTOM_CMAKE_FLAGS="${CUSTOM_CMAKE_FLAGS} ${OPTARG}"
 		  ;;
 		n)
-		  echo "n is ${OPTARG}"
+		  CUSTOM_NAME="$OPTARG"
+		  echo "Using name: $CUSTOM_NAME" 
 		  llvmvm_display_fatal "custom name not supported!"
 		  ;;
       esac
@@ -33,32 +36,36 @@ read_command_line() {
 }
 
 download_llvm_source() {
-	local LOG="$LLVMVM_ROOT/logs/llvm-download.log"
+	local llvm_src="$1"
+	local llvm_src_url="$2"
+	local log="$LLVMVM_ROOT/logs/llvm-download.log"
     mkdir -p "$LLVMVM_ROOT/logs"
-    mkdir -p "$LLVM_SRC"
+    mkdir -p "$llvm_src"
 
 	llvmvm_display_message "Downloading LLVM source..."
-	echo "$LLVM_SOURCE_URL > $LLVM_SRC"
-	svn co "$LLVM_SOURCE_URL" "$LLVM_SRC" >> "$LOG"  2>&1 ||
-		llvmvm_display_fatal "Couldn't download LLVM source. Check $LOG"
+
+	echo "$llvm_src_url > $llvm_src"
+	svn co "$llvm_src_url" "$llvm_src" >> "$log"  2>&1 ||
+		llvmvm_display_fatal "Couldn't download LLVM source. Check $log"
 }
 
 download_clang_source() {
-	local LOG="$LLVMVM_ROOT/logs/clang-download.log"
+	local clang_src="$1"
+	local clang_src_url="$2"
+	local log="$LLVMVM_ROOT/logs/clang-download.log"
     mkdir -p "$LLVMVM_ROOT/logs"
 
 	llvmvm_display_message "Downloading Clang source..."
-	echo "$CLANG_SOURCE_URL > $CLANG_SRC"
-	svn co "$CLANG_SOURCE_URL" "$CLANG_SRC" >> "$LOG"  2>&1 ||
-		llvmvm_display_fatal "Couldn't download Clang source. Check $LOG"
+	echo "$clang_src_url > $clang_src"
+	svn co "$clang_src_url" "$clang_src" >> "$log"  2>&1 ||
+		llvmvm_display_fatal "Couldn't download Clang source. Check $log"
 }
 
 create_environment() {
+	local name="$1"
 	local new_env_file="$LLVMVM_ROOT/environments/$LLVM_ID"
 
 	mkdir -p "$(dirname "$new_env_file")" && touch "$new_env_file"
-	llvmvm_get_name_for_id "$LLVM_ID"
-	local name="$result"
 
 	echo "export LLVMVM_ROOT; LLVMVM_ROOT=\"$LLVMVM_ROOT\"" > "$new_env_file"
 	echo "export PATH; PATH=\"\${LLVMVM_ROOT}/llvms/${name}/ins/bin:\${LLVMVM_ROOT}/bin:\${PATH}\"" >> "$new_env_file"
@@ -67,14 +74,18 @@ create_environment() {
 
 	. "$LLVMVM_ROOT/scripts/env/use.sh"
 	#. "$LLVMVM_ROOT/scripts/env/implode.sh"
-	llvmvm_use "$LLVM_ID" &> /dev/null ||
+	llvmvm_use "$name" &> /dev/null ||
 		llvmvm_display_fatal "Failed to use installed version"
 
 }
 
 configure_source() {
+	local ins="$1"
+	local obj="$2"
+	local src="$3"
+
 	local LOG="$LLVMVM_ROOT/logs/llvm-configure.log"
-	mkdir -p "$LLVM_OBJ"
+	mkdir -p "$obj"
 
 
 	CMAKE_FLAGS="$CUSTOM_CMAKE_FLAGS"
@@ -82,7 +93,7 @@ configure_source() {
 	if [[ -z "$CMAKE_FLAGS" ]]; then
 		CMAKE_FLAGS="-DCMAKE_BUILD_TYPE=Release"
 	fi
-	CMAKE_FLAGS="$CMAKE_FLAGS -DCMAKE_INSTALL_PREFIX=$LLVM_INS -B$LLVM_OBJ -H$LLVM_SRC"
+	CMAKE_FLAGS="$CMAKE_FLAGS -DCMAKE_INSTALL_PREFIX=$ins -B$obj -H$src"
 
 	llvmvm_display_message "Configuring LLVM... with $CMAKE_FLAGS"
 	nice -n20 cmake $CMAKE_FLAGS >> "$LOG" 2>&1 ||
@@ -94,21 +105,23 @@ configure_source() {
 }
 
 build_source() {
+	local obj="$1"
 	local LOG="$LLVMVM_ROOT/logs/llvm-build.log"
 	llvmvm_display_message "Building LLVM..."
-	nice -n20 make -C $LLVM_OBJ -j$(nproc) >> "$LOG" 2>&1 ||
+	nice -n20 make -C $obj -j$(nproc) >> "$LOG" 2>&1 ||
 		{
 			{ echo "" && tail "$LOG"; } ||
 			llvmvm_display_fatal "Couldn't build LLVM. Tail of $LOG above."
 		}
-
 }
 
 install_source() {
+	local ins="$1"
+	local obj="$2"
 	local LOG="$LLVMVM_ROOT/logs/llvm-install.log"
-    mkdir -p "$LLVM_INS"
+    mkdir -p "$ins"
 	llvmvm_display_message "Installing LLVM..."
-    nice -n20 make -C $LLVM_OBJ install -j$(nproc) >> "$LOG" 2>&1 ||
+    nice -n20 make -C "$obj" install -j$(nproc) >> "$LOG" 2>&1 ||
 		{
 			{ echo "" && tail "$LOG"; } ||
 			llvmvm_display_fatal "Couldn't install LLVM. Tail of $LOG above."
@@ -119,25 +132,33 @@ echo "install arguments:" "$@"
 
 read_command_line "$@"
 
+# Use custom name if one was provided
+if [[ ${CUSTOM_NAME+x} == "x" ]]; then # name unset, use default
+  llvmvm_get_name_for_id "$LLVM_ID"
+  LLVM_NAME="$result"
+else
+  LLVM_NAME="${CUSTOM_NAME}"
+fi
+
+llvmvm_get_path_for_name "${LLVM_NAME}" # sets 'result'
+LLVMVM_LLVM_PATH="$result"
+
 llvmvm_get_llvm_url_for_id "$LLVM_ID" # sets 'result'
 LLVM_SOURCE_URL="$result"
 llvmvm_get_clang_url_for_id "$LLVM_ID" # sets 'result'
 CLANG_SOURCE_URL="$result"
-llvmvm_get_path_for_id "$LLVM_ID" # sets 'result'
-LLVMVM_LLVM_PATH="$result"
 
 BASE="$LLVMVM_LLVM_PATH"
 LLVM_SRC="$BASE/src"
-CLANG_SRC="$BASE/src/tools/clang"
 LLVM_OBJ="$BASE/obj"
 LLVM_INS="$BASE/ins"
 
 if [[ "$IS_BINARY_INSTALL" ]]; then
-    download_llvm_source
-    download_clang_source
-    configure_source
-    build_source
-    install_source
+    download_llvm_source "$LLVM_SRC" "$LLVM_SOURCE_URL"
+    download_clang_source "$LLVM_SRC/tools/clang" "$CLANG_SOURCE_URL"
+    configure_source "$LLVM_INS" "$LLVM_OBJ" "$LLVM_SRC"
+    build_source "$LLVM_OBJ"
+    install_source "$LLVM_INS" "$LLVM_OBJ"
 else
 	echo "Binary install!"
 	llvmvm_get_version_for_id "$LLVM_ID"
@@ -145,4 +166,4 @@ else
 	download_clang_binary
 	install_binaries
 fi
-create_environment
+create_environment "$LLVM_NAME"

@@ -110,3 +110,7 @@ function llvmvm_get_path_for_id() {
   llvmvm_get_name_for_id "$1"
   result="$LLVMVM_ROOT/llvms/$result"
 }
+
+function llvmvm_get_path_for_name() {
+  result="$LLVMVM_ROOT/llvms/$1"
+}
