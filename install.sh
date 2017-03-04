@@ -7,7 +7,7 @@ LLVMVM_ROOT="$HOME/.llvmvm"
 
 
 # Blow away old install
-echo "Removing old" $LLVMVM_ROOT "bin and scripts"
+echo "Removing $LLVMVM_ROOT/bin and $LLVMVM_ROOT/scripts"
 rm -rf "$LLVMVM_ROOT/bin"
 rm -rf "$LLVMVM_ROOT/scripts"
 
