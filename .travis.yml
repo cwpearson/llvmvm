@@ -23,7 +23,7 @@ before_script:
  - ./install.sh && source ~/.llvmvm/scripts/llvmvm.sh
 
 script:
- - travis_wait 60 llvmvm install release_391_final
+ - travis_wait 70 llvmvm install release_391_final
  - llcpath=`which llc` && \
    echo $llcpath && \
    'if [[ "$llcpath" != *".llvmvm"* ]]; then
