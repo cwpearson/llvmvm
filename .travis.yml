@@ -1,6 +1,12 @@
 language: bash
-dist: trusty
-sudo: false
+
+matrix:
+  include:
+    - os: linux
+      dist: trusty
+      sudo: false
+    - os: osx
+      osx_image: xcode7.2
 
 before_install:
   - 'if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
