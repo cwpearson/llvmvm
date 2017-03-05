@@ -18,7 +18,7 @@ read_command_line() {
 	while getopts "Bc:n:" arg; do
 	  case "$arg" in
 	  	B)
-		  llvmvm_display_fatal "Binardy download not supported!"
+		  llvmvm_display_fatal "Binary download not supported!"
 		  echo "Installing binaries"
 		  IS_BINARY_INSTALL=true
 		  ;;
@@ -29,7 +29,6 @@ read_command_line() {
 		n)
 		  CUSTOM_NAME="$OPTARG"
 		  echo "Using name: $CUSTOM_NAME" 
-		  llvmvm_display_fatal "custom name not supported!"
 		  ;;
       esac
 	done
@@ -110,8 +109,8 @@ build_source() {
 	llvmvm_display_message "Building LLVM..."
 	nice -n20 make -C $obj -j$(nproc) >> "$LOG" 2>&1 ||
 		{
-			{ echo "" && tail "$LOG"; } ||
-			llvmvm_display_fatal "Couldn't build LLVM. Tail of $LOG above."
+			{ echo "" && cat "$LOG"; } ||
+			llvmvm_display_fatal "Couldn't build LLVM. cat of $LOG above."
 		}
 }
 
@@ -133,7 +132,7 @@ echo "install arguments:" "$@"
 read_command_line "$@"
 
 # Use custom name if one was provided
-if [[ ${CUSTOM_NAME+x} == "x" ]]; then # name unset, use default
+if [[ -z ${CUSTOM_NAME} ]]; then # name unset, use default
   llvmvm_get_name_for_id "$LLVM_ID"
   LLVM_NAME="$result"
 else
