@@ -11,7 +11,7 @@ function llvmvm_export_path() {
 	export PATH="$LLVMVM_ROOT/bin:$path_without_llvmvm"
     export LLVMVM_PATH_BACKUP="$PATH"
 
-    llvmvm_get_path_for_id "$@"
+    llvmvm_get_path_for_name "$1"
     local path="$result/ins/bin"
 
     export PATH="$path:$PATH"
