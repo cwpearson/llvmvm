@@ -70,6 +70,7 @@ Install and use a debug build of the trunk
 
 ## Upcoming
 
+* Removing an install
 * ~~Custom CMAKE build flags~~
 * Updating a trunk install
 * Binary downloads
