@@ -50,10 +50,15 @@ List the llvmvm sources available for download
 
     llvmvm listalltags
 
-### Advanced LLVM
+List the llvmvm binaries available for download
+
+    llvmvm listalltbins
+
+### "Advanced" LLVMVM
 
     Usage: llvmvm install [version] [options]
         -c,  Override CMAKE flags
+        -n,  Provide a custom name for an install
 
 Install revision 217292
 
@@ -63,16 +68,16 @@ Install the trunk
 
     llvmvm install trunk
 
-Install and use a debug build of the trunk
+Install and use a debug build of the trunk, with a custom name
 
-    llvmvm install trunk -c DCMAKE_BUILD_TYPE=Debug
-    llvm use trunk
+    llvmvm install trunk -c DCMAKE_BUILD_TYPE=Debug -n trunk-debug
+    llvm use trunk-debug
 
-## Upcoming
+## Upcoming (in rough order of priority)
 
-* Removing an install
 * ~~Custom CMAKE build flags~~
-* Updating a trunk install
+* ~~Custom names for installs~~
 * Binary downloads
-* Custom names for installs
+* Set a default llvm version
+* Updating a trunk install
 * Choose to keep or remove source and object files

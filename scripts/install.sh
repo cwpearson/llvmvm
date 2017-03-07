@@ -18,7 +18,6 @@ read_command_line() {
 	while getopts "Bc:n:" arg; do
 	  case "$arg" in
 	  	B)
-		  llvmvm_display_fatal "Binary download not supported!"
 		  echo "Installing binaries"
 		  IS_BINARY_INSTALL=true
 		  ;;
@@ -139,13 +138,9 @@ else
   LLVM_NAME="${CUSTOM_NAME}"
 fi
 
+# Determine the path that LLVM will be installed to
 llvmvm_get_path_for_name "${LLVM_NAME}" # sets 'result'
 LLVMVM_LLVM_PATH="$result"
-
-llvmvm_get_llvm_url_for_id "$LLVM_ID" # sets 'result'
-LLVM_SOURCE_URL="$result"
-llvmvm_get_clang_url_for_id "$LLVM_ID" # sets 'result'
-CLANG_SOURCE_URL="$result"
 
 BASE="$LLVMVM_LLVM_PATH"
 LLVM_SRC="$BASE/src"
@@ -153,6 +148,10 @@ LLVM_OBJ="$BASE/obj"
 LLVM_INS="$BASE/ins"
 
 if [[ "$IS_BINARY_INSTALL" ]]; then
+    llvmvm_get_llvm_url_for_id "$LLVM_ID" # sets 'result'
+    LLVM_SOURCE_URL="$result"
+    llvmvm_get_clang_url_for_id "$LLVM_ID" # sets 'result'
+    CLANG_SOURCE_URL="$result"
     download_llvm_source "$LLVM_SRC" "$LLVM_SOURCE_URL"
     download_clang_source "$LLVM_SRC/tools/clang" "$CLANG_SOURCE_URL"
     configure_source "$LLVM_INS" "$LLVM_OBJ" "$LLVM_SRC"
@@ -160,9 +159,8 @@ if [[ "$IS_BINARY_INSTALL" ]]; then
     install_source "$LLVM_INS" "$LLVM_OBJ"
 else
 	echo "Binary install!"
-	llvmvm_get_version_for_id "$LLVM_ID"
-    download_llvm_binary
-	download_clang_binary
-	install_binaries
+    download_binary "$LLVM_ID"
+	extract_binary
+	install_binary
 fi
 create_environment "$LLVM_NAME"

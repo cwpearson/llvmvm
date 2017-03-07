@@ -21,6 +21,8 @@ before_install:
       brew install cmake || travis_terminate 1;
     fi'
   - cmake --version
+  - g++ --version
+  - nproc
 
 
 before_script:
