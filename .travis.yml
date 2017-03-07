@@ -1,4 +1,4 @@
-language: bash
+language: cpp
 
 matrix:
   include:
@@ -13,11 +13,14 @@ before_install:
       CMAKE_URL="https://cmake.org/files/v3.4/cmake-3.4.3-Linux-x86_64.tar.gz";
       mkdir cmake && travis_retry curl -s ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake || travis_terminate 1;
       export PATH=${PWD}/cmake/bin:${PATH} || travis_terminate 1;
-      echo $PATH
+      echo $PATH;
+      sudo apt update -qq;
+      sudo apt upgrade -yqq;
     else
       brew install cmake || travis_terminate 1;
     fi'
   - cmake --version
+
 
 before_script:
  - ./install.sh && source ~/.llvmvm/scripts/llvmvm.sh
