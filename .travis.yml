@@ -4,7 +4,7 @@ matrix:
   include:
     - os: linux
       dist: trusty
-      sudo: false
+      sudo: true
     - os: osx
       osx_image: xcode7.3
 
