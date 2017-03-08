@@ -9,7 +9,6 @@ function llvmvm_get_binary_link_for_id() {
   ALL_LINKS=`echo "$HTML" | grep href`
   CLANG_LINKS=`echo "$ALL_LINKS" | grep -Eo "(llvm|clang)\+(llvm|clang)[^>]*.(g|x)z"`
 
-  # local ver_re="([[:digit:].]+)-"
   local ver_re="([[:digit:].]+)-"
 
   for clang_link in $CLANG_LINKS; do
@@ -26,10 +25,17 @@ function llvmvm_get_binary_link_for_id() {
 function llvmvm_download_extract_binary() {
 	local id="$2"
   local dest="$1"
-  echo "$id -> $dest"
 	llvmvm_get_binary_link_for_id "$id"
 	link="$result"
 	echo "$link -> $dest"
   mkdir -p "$dest"
   curl -s $link | tar -xJ -C "$dest"
+
+  for dir in $dest/*/*; do
+    echo "$dir -> $dest/."
+    mv $dir $dest/.
+  done
+  for dir in `find $dest -type d -empty`; do # remove all empty dirs (the one tar created)
+    rmdir "$dir";
+  done
 }
