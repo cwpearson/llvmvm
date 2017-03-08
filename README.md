@@ -14,7 +14,7 @@ Inspired very heavily by [gvm](https://github.com/moovweb/gvm).
 
 ## Installing
 
-Install the llvmvm files. This will not modify your default terminal environment in any way. Until LLVMVM is more stable, you will have to source the `llvmvm.sh` script in every terminal.
+Install the LLVMVM files. This will not modify your default terminal environment in any way. Until LLVMVM is more stable, you will have to source the `llvmvm.sh` script in every terminal.
 
 Warning - this will replace the current `~/.llvmvm/bin` and `~/.llvmvm/scripts`
 
@@ -68,12 +68,23 @@ List the llvmvm binaries available for download
 
     llvmvm listallbins
 
-### "Advanced" LLVMVM
+### "Advanced" LLVMVM Examples
 
-    Usage: llvmvm install [version] [options]
+    Usage: llvmvm [command] [version] [options]
+    
+    Available Options:
         -B,  Binary download
         -c,  Override CMAKE flags
         -n,  Provide a custom name for an install
+
+    Available Commands:
+        help,         Display something like this message
+        install,      Install an LLVM
+        listalltags,  List support LLVM tags
+        listallbins,  List supported LLVM binaries
+        list,         List installed LLVMs
+        use,          Switch to use an installed LLVM
+
 
 Install revision 217292
 
