@@ -22,6 +22,22 @@ function llvmvm_get_binary_link_for_id() {
   llvmvm_display_fatal "Couldn't find binary download link for id: $id"
 }
 
+function llvmvm_download_untar() {
+  local link=$2
+  local dst=$1
+  case "$link" in
+    *.gz | *.tgz ) 
+      curl -s $link | tar -xz -C "$dest"
+      ;;
+    *.xz)
+      curl -s $link | tar -xJ -C "$dest"
+      ;;
+    *)
+      llvmvm_display_fatal "Don't know how to untar $link"
+      ;;
+  esac
+}
+
 function llvmvm_download_extract_binary() {
 	local id="$2"
   local dest="$1"
@@ -29,10 +45,10 @@ function llvmvm_download_extract_binary() {
 	link="$result"
 	echo "$link -> $dest"
   mkdir -p "$dest"
-  curl -s $link | tar -xJ -C "$dest"
+  llvmvm_download_untar "$dest" "$link"
 
+  # Move to make consistent with source install structure
   for dir in $dest/*/*; do
-    echo "$dir -> $dest/."
     mv $dir $dest/.
   done
   for dir in `find $dest -type d -empty`; do # remove all empty dirs (the one tar created)
