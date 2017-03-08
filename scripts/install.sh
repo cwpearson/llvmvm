@@ -12,14 +12,13 @@ read_command_line() {
 	LLVM_ID="$1"
 	shift
 
-	IS_BINARY_INSTALL=false
+	BINARY_INSTALL=false
 	CUSTOM_CMAKE_FLAGS=""
 	CUSTOM_NAME=""
 	while getopts "Bc:n:" arg; do
 	  case "$arg" in
 	  	B)
-		  echo "Installing binaries"
-		  IS_BINARY_INSTALL=true
+		  BINARY_INSTALL=true
 		  ;;
 		c)
 		  echo "c is ${OPTARG}"
@@ -147,7 +146,8 @@ LLVM_SRC="$BASE/src"
 LLVM_OBJ="$BASE/obj"
 LLVM_INS="$BASE/ins"
 
-if [[ "$IS_BINARY_INSTALL" ]]; then
+if [ "$BINARY_INSTALL" = false ]; then
+	echo "Source install!"
     llvmvm_get_llvm_url_for_id "$LLVM_ID" # sets 'result'
     LLVM_SOURCE_URL="$result"
     llvmvm_get_clang_url_for_id "$LLVM_ID" # sets 'result'
@@ -159,8 +159,6 @@ if [[ "$IS_BINARY_INSTALL" ]]; then
     install_source "$LLVM_INS" "$LLVM_OBJ"
 else
 	echo "Binary install!"
-    download_binary "$LLVM_ID"
-	extract_binary
-	install_binary
+    llvmvm_download_extract_binary "$LLVM_INS" "$LLVM_ID" 
 fi
 create_environment "$LLVM_NAME"

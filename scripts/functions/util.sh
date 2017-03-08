@@ -3,6 +3,7 @@
 function llvmvm_split_id() {
     local release_re="release[_]?([[:digit:]\.]+)[_]?([a-z0-9]*)"
     local rev_re="r([[:digit:]]+)"
+    local bin_re="([[:digit:].]+)-.+-.+"
 
     if [[ "$1" =~ $release_re ]]; then
       LLVMVM_TAG="release"
@@ -19,8 +20,12 @@ function llvmvm_split_id() {
       LLVMVM_TAG="trunk"
       LLVMVM_VER=""
       LLVMVM_REL=""
+    elif [[ "$1" =~ $bin_re ]]; then
+      LLVMVM_TAG=""
+      LLVMVM_VER="${BASH_REMATCH[1]}"
+      LLVMVM_REL="binary"
     else
-      llvmvm_display_error "Unexpected argument in llvmvm_split_id:" $1
+      llvmvm_display_error "Unexpected argument in llvmvm_split_id: $1"
       return
     fi
 }
@@ -101,6 +106,10 @@ function llvmvm_get_name_for_id() {
     local name="r$LLVMVM_VER"
   elif [[ "$LLVMVM_TAG" == "trunk" ]]; then
     local name="trunk"
+  elif [[ "$LLVMVM_REL" == "binary" ]]; then
+    local name="$1"
+  else 
+    llvmvm_display_fatal "Couldn't get name for id: $1"
   fi
 
   result="$name"
@@ -114,3 +123,4 @@ function llvmvm_get_path_for_id() {
 function llvmvm_get_path_for_name() {
   result="$LLVMVM_ROOT/llvms/$1"
 }
+
