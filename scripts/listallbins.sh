@@ -9,10 +9,15 @@ HTML=`curl -s $URL`
 ALL_LINKS=`echo "$HTML" | grep href`
 CLANG_LINKS=`echo "$ALL_LINKS" | grep -Eo "(llvm|clang)\+(llvm|clang)[^>]*.(g|x)z"`
 
+BASE_RE="(clang|llvm)\+(llvm|clang)-(.*)"
+EXT_RE1="(\.tar\.gz|\.tar\.xz)"
+EXT_RE2="(\.tgz|\.xz)"
+
 for link in $CLANG_LINKS; do
-  BASE_RE="(clang|llvm)\+(llvm|clang)-(.*)\.(tar.gz|xz|tgz)"
-  if [[ "$link" =~ $BASE_RE ]]; then
-    echo ${BASH_REMATCH[3]};
+  if [[ "$link" =~ $BASE_RE$EXT_RE1 ]]; then
+    echo ${BASH_REMATCH[3]} " ---- " $link;
+  elif [[ "$link" =~ $BASE_RE$EXT_RE2 ]]; then
+    echo ${BASH_REMATCH[3]} " ---- " $link;
   else
     llvmvm_display_fatal "Unhandled binary link $link"
   fi
