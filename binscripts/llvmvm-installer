@@ -46,8 +46,42 @@ then
 else
   if [[ $LLVMVM_DEST == *"$GIT_ROOT"* ]]
   then
+	  echo "Linking $GIT_ROOT to $LLVMVM_DEST"
     ln -s "$GIT_ROOT" "$LLVMVM_DEST"
   else
+	  echo "Copying $GIT_ROOT to $LLVMVM_DEST/$LLVMVM_NAME"
     cp -r "$GIT_ROOT" "$LLVMVM_DEST/$LLVMVM_NAME"
   fi
 fi
+
+# Add line to source llvmvm to the shell
+source_line="[[ -s \"${LLVMVM_DEST}/$LLVMVM_NAME/scripts/llvmvm.sh\" ]] && source \"${LLVMVM_DEST}/$LLVMVM_NAME/scripts/llvmvm.sh\""
+source_file="${LLVMVM_DEST}/$LLVMVM_NAME/scripts/llvmvm.sh"
+
+if [ -z "$LLVMVM_NO_UPDATE_PROFILE" ] ; then
+  if [ -n "$ZSH_NAME" ]; then
+    update_profile "$HOME/.zshrc"
+  elif [ "$(uname)" == "Linux" ]; then
+    update_profile "$HOME/.bashrc" || update_profile "$HOME/.bash_profile"
+  elif [ "$(uname)" == "Darwin" ]; then
+    update_profile "$HOME/.profile" || update_profile "$HOME/.bash_profile"
+  fi
+fi
+
+if [ -z "$GVM_NO_UPDATE_PROFILE" ] && [ "$?" != "0" ]; then
+	echo "Unable to locate profile settings file(Something like $HOME/.bashrc or $HOME/.bash_profile)"
+	echo
+	echo " You will have to manually add the following line:"
+	echo
+	echo "  $source_line"
+	echo
+fi
+
+echo "export LLVMVM_ROOT=$LLVMVM_DEST/$LLVMVM_NAME" > "$LLVMVM_DEST/$LLVMVM_NAME/scripts/llvmvm.sh"
+echo ". \$LLVMVM_ROOT/scripts/llvmvm-base.sh" >> "$LLVMVM_DEST/$LLVMVM_NAME/scripts/llvmvm.sh"
+[[ -s "$LLVMVM_DEST/$LLVMVM_NAME/scripts/gvm" ]] && source "$LLVMVM_DEST/$LLVMVM_NAME/scripts/llvmvm"
+echo "Installed LLVMVM"
+echo
+echo "Please restart your terminal session or to get started right away run"
+echo " \`source ${source_file}\`"
+echo
