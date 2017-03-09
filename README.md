@@ -105,7 +105,7 @@ Install and use a debug build of the trunk, with a custom name. Use that as the 
 * ~~Custom CMAKE build flags~~
 * ~~Custom names for installs~~
 * ~~Binary downloads~~
+* ~~Set a default llvm version~~
 * Add an uninstall command
-* Set a default llvm version
 * Updating a trunk install
 * Choose to keep or remove source and object files
