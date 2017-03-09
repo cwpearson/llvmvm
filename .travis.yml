@@ -26,9 +26,11 @@ before_install:
 
 
 before_script:
- - ./install.sh && source ~/.llvmvm/scripts/llvmvm.sh
+ - binscripts/llvmvm-installer
+ - source ~/.llvmvm/scripts/llvmvm.sh
 
 script:
+ - llvmvm list
  - travis_wait 70 llvmvm install release_391_final
  - llcpath=`which llc` && \
    echo $llcpath && \
