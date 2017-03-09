@@ -30,7 +30,10 @@ script:
  - llvmvm listalltags
  - llvmvm listallbins
  - llvmvm install 3.2-x86_64-linux-ubuntu-12.04 -B
- - llvmvm use 3.2-x86_64-linux-ubuntu-12.04 
+ - ls $HOME/.llvmvm/llvms
+ - echo $PATH
+ - llvmvm use 3.2-x86_64-linux-ubuntu-12.04
+ - echo $PATH
  - export llcpath=`which llc`
  - echo $llcpath
  - 'if [[ ! "$llcpath" == *".llvmvm"* ]]; then
