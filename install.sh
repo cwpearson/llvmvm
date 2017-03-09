@@ -4,8 +4,6 @@ set -eou pipefail
 
 LLVMVM_ROOT="$HOME/.llvmvm"
 
-
-
 # Blow away old install
 echo "Removing $LLVMVM_ROOT/bin and $LLVMVM_ROOT/scripts"
 rm -rf "$LLVMVM_ROOT/bin"
