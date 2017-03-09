@@ -14,21 +14,23 @@ Inspired very heavily by [gvm](https://github.com/moovweb/gvm).
 
 ## Installing
 
-Install the LLVMVM files. This will not modify your default terminal environment in any way. Until LLVMVM is more stable, you will have to source the `llvmvm.sh` script in every terminal.
+    bash < <(curl -s -S -L https://raw.githubusercontent.com/cwpears/llvmvm/master/binscripts/llvmvm-installer)
 
-Warning - this will replace the current `~/.llvmvm/bin` and `~/.llvmvm/scripts`
-
-    ./install.sh && source ~/.llvmvm/scripts/llvmvm.sh
+This will download the LLVMVM scripts to `$HOME/.llvmvm`, and modify your `.bashrc` (or equivalent) to source the LLVMVM environment scripts.
 
 ## Removing
 
-Remove `~/.llvmvm` and open a new terminal.
+Delete `$HOME/.llvmvm`. Optionally also remove a line like
+
+    [[ -s "/home/username/.llvmvm/scripts/llvmvm.sh" ]] && source "/home/username/.llvmvm/scripts/llvmvm.sh"
+
+from your `.bashrc` or equivalent
+
 
 ### Quick Start (installing from source)
 
 Check supported LLVM tags
 
-    source ~/.llvmvm/scripts/llvmvm.sh
     llvmvm listalltags
 
 Choose a tag to install
@@ -43,7 +45,6 @@ Add the installed version to the path. This must be done for every new terminal 
 
 Check supported LLVM binaries
 
-    source ~/.llvmvm/scripts/llvmvm.sh
     llvmvm listallbins
 
 Choose a binary to install (**note -B flag**)
@@ -104,6 +105,7 @@ Install and use a debug build of the trunk, with a custom name
 * ~~Custom CMAKE build flags~~
 * ~~Custom names for installs~~
 * ~~Binary downloads~~
+* Add an uninstall command
 * Set a default llvm version
 * Updating a trunk install
 * Choose to keep or remove source and object files
