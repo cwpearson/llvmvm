@@ -15,9 +15,9 @@ EXT_RE2="(\.tgz|\.xz)"
 
 for link in $CLANG_LINKS; do
   if [[ "$link" =~ $BASE_RE$EXT_RE1 ]]; then
-    echo ${BASH_REMATCH[3]} " ---- " $link;
+    echo "${BASH_REMATCH[3]}";
   elif [[ "$link" =~ $BASE_RE$EXT_RE2 ]]; then
-    echo ${BASH_REMATCH[3]} " ---- " $link;
+    echo "${BASH_REMATCH[3]}"
   else
     llvmvm_display_fatal "Unhandled binary link $link"
   fi
