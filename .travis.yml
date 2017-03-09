@@ -13,7 +13,6 @@ before_install:
       CMAKE_URL="https://cmake.org/files/v3.4/cmake-3.4.3-Linux-x86_64.tar.gz";
       mkdir cmake && travis_retry curl -s ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake || travis_terminate 1;
       export PATH=${PWD}/cmake/bin:${PATH} || travis_terminate 1;
-      echo $PATH;
     fi'
   - cmake --version
   - g++ --version
@@ -30,8 +29,9 @@ script:
  - llvmvm listalltags
  - llvmvm listallbins
  - llvmvm install 3.2-x86_64-linux-ubuntu-12.04 -B
+ - llvmvm use 3.2-x86_64-linux-ubuntu-12.04 
  - export llcpath=`which llc`
  - echo $llcpath
  - 'if [[ ! "$llcpath" == *".llvmvm"* ]]; then
-      exit 1;
+      travis_terminate 1;
     fi'
