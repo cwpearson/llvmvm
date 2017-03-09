@@ -14,9 +14,9 @@ before_install:
       mkdir cmake && travis_retry curl -s ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake || travis_terminate 1;
       export PATH=${PWD}/cmake/bin:${PATH} || travis_terminate 1;
       echo $PATH;
-      sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y;
-      sudo apt-get update -qq;
-      sudo apt-get install g++-4.9;
+      #sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y;
+      #sudo apt-get update -qq;
+      #sudo apt-get install g++-4.9;
     else
       brew install cmake || travis_terminate 1;
     fi'
