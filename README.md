@@ -14,7 +14,7 @@ Inspired very heavily by [gvm](https://github.com/moovweb/gvm).
 
 ## Installing
 
-    bash < <(curl -s -S -L https://raw.githubusercontent.com/cwpears/llvmvm/master/binscripts/llvmvm-installer)
+    bash < <(curl -s -S -L https://raw.githubusercontent.com/cwpearson/llvmvm/master/binscripts/llvmvm-installer)
 
 This will download the LLVMVM scripts to `$HOME/.llvmvm`, and modify your `.bashrc` (or equivalent) to source the LLVMVM environment scripts.
 
