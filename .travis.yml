@@ -29,6 +29,7 @@ script:
  - llvmvm help
  - llvmvm listalltags
  - llvmvm listallbins
+ - echo $PATH
  - llvmvm install 3.2-x86_64-linux-ubuntu-12.04 -B
  - ls $HOME/.llvmvm/llvms
  - echo $PATH

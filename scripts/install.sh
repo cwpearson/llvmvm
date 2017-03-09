@@ -71,7 +71,9 @@ create_environment() {
 
 	. "$LLVMVM_ROOT/scripts/env/use.sh"
 	#. "$LLVMVM_ROOT/scripts/env/implode.sh"
-	llvmvm_use "$name" &> /dev/null ||
+	# llvmvm_use "$name" &> /dev/null ||
+	# 	llvmvm_display_fatal "Failed to use installed version"
+	llvmvm_use "$name" ||
 		llvmvm_display_fatal "Failed to use installed version"
 
 }
