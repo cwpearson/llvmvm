@@ -34,10 +34,9 @@ script:
  - llvmvm help
  - llvmvm listalltags
  - llvmvm listallbins
- - llvmvm install 
- - llvmvm install 3.2-x86_64-linux-ubuntu-12.04  -B
- - llcpath=`which llc` && \
-   echo $llcpath && \
-   'if [[ "$llcpath" != *".llvmvm"* ]]; then
+ - llvmvm install 3.2-x86_64-linux-ubuntu-12.04 -B
+ - export llcpath=`which llc`
+ - echo $llcpath
+ - 'if [[ ! "$llcpath" == *".llvmvm"* ]]; then
       exit 1;
     fi'
