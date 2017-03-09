@@ -79,7 +79,7 @@ fi
 
 echo "export LLVMVM_ROOT=$LLVMVM_DEST/$LLVMVM_NAME" > "$LLVMVM_DEST/$LLVMVM_NAME/scripts/llvmvm.sh"
 echo ". \$LLVMVM_ROOT/scripts/llvmvm-base.sh" >> "$LLVMVM_DEST/$LLVMVM_NAME/scripts/llvmvm.sh"
-[[ -s "$LLVMVM_DEST/$LLVMVM_NAME/scripts/gvm" ]] && source "$LLVMVM_DEST/$LLVMVM_NAME/scripts/llvmvm"
+[[ -s "$LLVMVM_DEST/$LLVMVM_NAME/scripts/llvmvm.sh" ]] && source "$LLVMVM_DEST/$LLVMVM_NAME/scripts/llvmvm.sh"
 echo "Installed LLVMVM"
 echo
 echo "Please restart your terminal session or to get started right away run"
