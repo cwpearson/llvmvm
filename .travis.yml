@@ -31,7 +31,11 @@ before_script:
 
 script:
  - llvmvm list
- - travis_wait 70 llvmvm install release_391_final
+ - llvmvm help
+ - llvmvm listalltags
+ - llvmvm listallbins
+ - llvmvm install 
+ - llvmvm install 3.2-x86_64-linux-ubuntu-12.04  -B
  - llcpath=`which llc` && \
    echo $llcpath && \
    'if [[ "$llcpath" != *".llvmvm"* ]]; then
