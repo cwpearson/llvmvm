@@ -22,18 +22,21 @@ if [ -f "$LLVMVM_ROOT/scripts/$command.sh" ]; then
   shift
   "$LLVMVM_ROOT/scripts/$command.sh" "$@"
 elif [[ -z $command || $command = help ]]; then
-  echo "Usage: llvmvm [command]
+  echo "Usage: llvmvm [command] [options]
 Description:
   LLVMVM is the LLVM Version Manager
 Commands:
-  get        - gets the latest code (for debugging)
-  use        - select an LLVM version to use
-  help       - display this usage text
-  implode    - completely remove llvmvm
-  install    - install llvm versions
-  uninstall  - uninstall llvm versions
-  list       - list installed LLVM versions
-  listall    - list available versions
+  use         - select an LLVM version to use
+  help        - display this usage text
+  implode     - completely remove llvmvm
+  install     - install llvm versions
+  list        - list installed LLVM versions
+  listallbins - list available binary versions
+  listalltags - list available source tags
+Options:
+  -B,  select binary install
+  -c,  override CMAKE flags for source install
+  -n,  override name for install
 "
 else
   llvmvm_display_fatal "Unrecognized command line argument: '$command'"

@@ -84,7 +84,7 @@ List the llvmvm binaries available for download
         listalltags,  List support LLVM tags
         listallbins,  List supported LLVM binaries
         list,         List installed LLVMs
-        use,          Switch to use an installed LLVM
+        use,          Switch to use an installed LLVM (with --default to set default llvmvm for future shells)
 
 
 Install revision 217292
@@ -95,10 +95,10 @@ Install the trunk
 
     llvmvm install trunk
 
-Install and use a debug build of the trunk, with a custom name
+Install and use a debug build of the trunk, with a custom name. Use that as the default llvm for all new shells.
 
     llvmvm install trunk -c DCMAKE_BUILD_TYPE=Debug -n trunk-debug
-    llvm use trunk-debug
+    llvm use trunk-debug --default
 
 ## Upcoming (in rough order of priority)
 
