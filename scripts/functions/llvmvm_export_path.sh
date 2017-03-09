@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 function llvmvm_export_path() {
-    # echo "in llvmvm_export_path bash function"
-    # echo "with args $@"
+    echo "in llvmvm_export_path bash function"
+    echo "with args $@"
 
     # Remove prior llvmvm-related paths from the path
     path_lines=`echo "$PATH" | tr ":" "\n" | grep -v '^$'`

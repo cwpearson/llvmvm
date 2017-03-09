@@ -3,8 +3,6 @@
 . "$LLVMVM_ROOT/scripts/functions.sh" || return 1
 
 function llvmvm() {
-
-    echo "in llvmvm bash function"
     mkdir -p "$LLVMVM_ROOT/environments"
 
     command="$1"
