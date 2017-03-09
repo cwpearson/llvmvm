@@ -8,7 +8,7 @@ function llvmvm_export_path() {
     echo $PATH
 
     # Remove prior llvmvm-related paths from the path
-    path_lines=`echo "$PATH" | tr ":" "\n" | "$GREP_PATH" -v '^$'`
+    path_lines=`echo "$PATH" | tr ":" "\n" | grep -v '^$'`
     path_without_llvmvm=`echo "$path_lines" | egrep -v "$LLVMVM_ROOT/(llvms|bin)" | tr "\n" ":" | sed 's/:*$//'`
     echo "cleaned path"
 
