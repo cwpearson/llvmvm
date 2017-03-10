@@ -20,7 +20,7 @@ before_install:
 before_script:
  - binscripts/llvmvm-installer
  - source ~/.llvmvm/scripts/llvmvm.sh
- - tr --version
+ - which tr
 
 script:
  - llvmvm list
