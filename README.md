@@ -124,4 +124,5 @@ Install a debug build of the trunk, with a custom name. Use that as the default 
 ## Upcoming (in rough order of priority)
 
 * Updating a trunk install
+* Build more LLVM components during source install (openmp, libcxx, etc...)
 * Choose to keep or remove source and object files
