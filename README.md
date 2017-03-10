@@ -119,7 +119,7 @@ Install the trunk
 Install a debug build of the trunk, with a custom name. Use that as the default llvm for all new shells.
 
     llvmvm install trunk -c DCMAKE_BUILD_TYPE=Debug -n trunk-debug
-    llvm use trunk-debug --default
+    llvmvm use trunk-debug --default
 
 ## Upcoming (in rough order of priority)
 
