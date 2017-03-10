@@ -33,12 +33,13 @@ script:
  - echo $PATH
  - llvmvm use 3.2-x86_64-linux-ubuntu-12.04
  - echo $PATH
- - export llcpath=`which llc`
- - echo $llcpath
- - 'if [[ ! "$llcpath" == *".llvmvm"* ]]; then
+ - 'if [[ ! `which llc` == *".llvmvm"* ]]; then
+      echo `which llc`;
       travis_terminate 1;
     fi'
  - llvmvm uninstall 3.2-x86_64-linux-ubuntu-12.04
- - 'if [[ "$llcpath" == *".llvmvm"* ]]; then
+ - 'if [[ `which llc` == *".llvmvm"* ]]; then
+      echo `which llc`;
       travis_terminate 1;
     fi'
+ - llvmvm list
