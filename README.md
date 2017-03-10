@@ -107,5 +107,5 @@ Install and use a debug build of the trunk, with a custom name. Use that as the 
 * ~~Binary downloads~~
 * ~~Set a default llvm version~~
 * ~~Add an uninstall command~~
-* Updating a trunk install
+* ~~Updating a trunk install~~
 * Choose to keep or remove source and object files
