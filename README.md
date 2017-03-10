@@ -27,7 +27,7 @@ Delete `$HOME/.llvmvm`. Optionally also remove a line like
 from your `.bashrc` or equivalent
 
 
-### Quick Start (installing from source)
+### Quick Start (installing an LLVM from source)
 
 Check supported LLVM tags
 
@@ -41,7 +41,7 @@ Add the installed version to the path. This must be done for every new terminal 
 
     llvmvm use release_391_final
 
-### Quick Start (installing binaries)
+### Quick Start (installing LLVM binaries)
 
 Check supported LLVM binaries
 
@@ -69,18 +69,32 @@ List the llvmvm binaries available for download
 
     llvmvm listallbins
 
+### Uninstall an LLVM
+
+List the installed versions of LLVM
+
+    llvmvm list
+
+Choose a version to remove
+
+    llvmvm uninstall [version]
+
 ### "Advanced" LLVMVM Examples
 
     Usage: llvmvm [command] [version] [options]
+    Description:
+      LLVMVM is the LLVM Version Manager
     
     Available Options:
-        -B,  Binary download
-        -c,  Override CMAKE flags
-        -n,  Provide a custom name for an install
+        -B,         Binary download
+        -c,         Override CMAKE flags
+        -n,         Provide a custom name for an install
+        --default,  (with 'use' command, sets an install as the default LLVM)
 
     Available Commands:
         help,         Display something like this message
         install,      Install an LLVM
+        uninstall,    Remove an installed LLVM
         listalltags,  List support LLVM tags
         listallbins,  List supported LLVM binaries
         list,         List installed LLVMs
@@ -95,17 +109,12 @@ Install the trunk
 
     llvmvm install trunk
 
-Install and use a debug build of the trunk, with a custom name. Use that as the default llvm for all new shells.
+Install a debug build of the trunk, with a custom name. Use that as the default llvm for all new shells.
 
     llvmvm install trunk -c DCMAKE_BUILD_TYPE=Debug -n trunk-debug
     llvm use trunk-debug --default
 
 ## Upcoming (in rough order of priority)
 
-* ~~Custom CMAKE build flags~~
-* ~~Custom names for installs~~
-* ~~Binary downloads~~
-* ~~Set a default llvm version~~
-* ~~Add an uninstall command~~
-* ~~Updating a trunk install~~
+* Updating a trunk install
 * Choose to keep or remove source and object files
