@@ -8,17 +8,15 @@
 
 LLVMVM is a tool for installing and managing different versions of LLVM on a single system. It presently works for relatively recent versions of LLVM.
 
-*LLVMVM is very beta, use at your own risk.*
-
 Inspired very heavily by [gvm](https://github.com/moovweb/gvm).
 
 ## Installing
 
 This will download the LLVMVM scripts to `$HOME/.llvmvm`, and modify your `.bashrc` (or equivalent) to source the LLVMVM environment scripts.
 
-To install release v0.1
+To install release v0.1.1
 
-    bash < <(curl -s -S -L https://raw.githubusercontent.com/cwpearson/llvmvm/v0.1/binscripts/llvmvm-installer)
+    bash < <(curl -s -S -L https://raw.githubusercontent.com/cwpearson/llvmvm/v0.1.1/binscripts/llvmvm-installer)
 
 To install the most recent revision (check 'master' build status above)
 
