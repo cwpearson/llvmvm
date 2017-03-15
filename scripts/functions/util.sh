@@ -124,3 +124,15 @@ function llvmvm_get_path_for_name() {
   result="$LLVMVM_ROOT/llvms/$1"
 }
 
+case "$(uname -s)" in
+   Darwin)
+     alias nproc='sysctl -n hw.ncpu'
+     nproc
+     ;;
+   Linux)
+     ;;
+   CYGWIN*|MINGW32*|MSYS*)
+     ;;
+   *)
+     ;;
+esac
