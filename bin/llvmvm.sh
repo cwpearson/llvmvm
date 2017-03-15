@@ -2,7 +2,7 @@
 
 set -eou pipefail
 
-echo "Falling back to $LLVMVM_ROOT/bin/llvmvm.sh..."
+# echo "Falling back to $LLVMVM_ROOT/bin/llvmvm.sh..."
 
 . "$LLVMVM_ROOT/scripts/functions.sh" || exit 1
 
