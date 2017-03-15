@@ -124,18 +124,19 @@ function llvmvm_get_path_for_name() {
   result="$LLVMVM_ROOT/llvms/$1"
 }
 
-uname -s
-case "$(uname -s)" in
+function llvmvm_nproc() {
+  case "$(uname -s)" in
    Darwin)
-
-     shopt -s expand_aliases
-     alias nproc='sysctl -n hw.ncpu'
-     nproc
+     sysctl -n hw.ncpu
      ;;
    Linux)
+     nproc
      ;;
    CYGWIN*|MINGW32*|MSYS*)
+     echo 1
      ;;
    *)
+     echo 1
      ;;
-esac
+  esac
+}
