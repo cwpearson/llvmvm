@@ -124,8 +124,10 @@ function llvmvm_get_path_for_name() {
   result="$LLVMVM_ROOT/llvms/$1"
 }
 
+uname -s
 case "$(uname -s)" in
    Darwin)
+
      shopt -s expand_aliases
      alias nproc='sysctl -n hw.ncpu'
      nproc
