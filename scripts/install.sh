@@ -41,7 +41,7 @@ download_llvm_source() {
 
 	llvmvm_display_message "Downloading LLVM source..."
 
-	echo "$llvm_src_url > $llvm_src"
+	echo "$llvm_src_url -> $llvm_src"
 	svn co "$llvm_src_url" "$llvm_src" >> "$log"  2>&1 ||
 		llvmvm_display_fatal "Couldn't download LLVM source. Check $log"
 }
@@ -53,7 +53,7 @@ download_clang_source() {
     mkdir -p "$LLVMVM_ROOT/logs"
 
 	llvmvm_display_message "Downloading Clang source..."
-	echo "$clang_src_url > $clang_src"
+	echo "$clang_src_url -> $clang_src"
 	svn co "$clang_src_url" "$clang_src" >> "$log"  2>&1 ||
 		llvmvm_display_fatal "Couldn't download Clang source. Check $log"
 }
@@ -65,7 +65,7 @@ download_rt_source() {
     mkdir -p "$LLVMVM_ROOT/logs"
 
 	llvmvm_display_message "Downloading compiler-rt source..."
-	echo "$rt_src_url > $rt_src"
+	echo "$rt_src_url -> $rt_src"
 	svn co "$rt_src_url" "$rt_src" >> "$log"  2>&1 ||
 		llvmvm_display_fatal "Couldn't download compiler-rt source. Check $log"
 }
@@ -77,11 +77,34 @@ download_libomp_source() {
     mkdir -p "$LLVMVM_ROOT/logs"
 
 	llvmvm_display_message "Downloading libomp source..."
-	echo "$omp_src_url > $omp_src"
+	echo "$omp_src_url -> $omp_src"
 	svn co "$omp_src_url" "$omp_src" >> "$log"  2>&1 ||
 		llvmvm_display_fatal "Couldn't download libomp source. Check $log"
 }
 
+download_libcxx_source() {
+	local cxx_src="$1"
+	local cxx_src_url="$2"
+	local log="$LLVMVM_ROOT/logs/cxx-download.log"
+    mkdir -p "$LLVMVM_ROOT/logs"
+
+	llvmvm_display_message "Downloading libcxx source..."
+	echo "$cxx_src_url -> $cxx_src"
+	svn co "$cxx_src_url" "$cxx_src" >> "$log"  2>&1 ||
+		llvmvm_display_fatal "Couldn't download libcxx source. Check $log"
+}
+
+download_libcxxabi_source() {
+	local cxx_src="$1"
+	local cxx_src_url="$2"
+	local log="$LLVMVM_ROOT/logs/cxx-download.log"
+    mkdir -p "$LLVMVM_ROOT/logs"
+
+	llvmvm_display_message "Downloading libcxxabi source..."
+	echo "$cxx_src_url -> $cxx_src"
+	svn co "$cxx_src_url" "$cxx_src" >> "$log"  2>&1 ||
+		llvmvm_display_fatal "Couldn't download libcxxabi source. Check $log"
+}
 
 create_environment() {
 	local name="$1"
@@ -181,10 +204,14 @@ if [ "$BINARY_INSTALL" = false ]; then
     RT_SOURCE_URL="$result"
     llvmvm_get_omp_url_for_id "$LLVM_ID"
     OMP_SOURCE_URL="$result"
+	CXX_SOURCE_URL=`llvmvm_get_libcxx_url_for_id "$LLVM_ID"`
+	CXXABI_SOURCE_URL=`llvmvm_get_libcxxabi_url_for_id "$LLVM_ID"`
     download_llvm_source "$LLVM_SRC" "$LLVM_SOURCE_URL"
     download_clang_source "$LLVM_SRC/tools/clang" "$CLANG_SOURCE_URL"
 	download_rt_source "$LLVM_SRC/projects/compiler-rt" "$RT_SOURCE_URL"
 	download_libomp_source  "$LLVM_SRC/projects/openmp" "$OMP_SOURCE_URL"
+	download_libcxx_source  "$LLVM_SRC/projects/libcxx" "$CXX_SOURCE_URL"
+	download_libcxxabi_source  "$LLVM_SRC/projects/libcxxabi" "$CXXABI_SOURCE_URL"
     configure_source "$LLVM_INS" "$LLVM_OBJ" "$LLVM_SRC"
     build_source "$LLVM_OBJ"
     install_source "$LLVM_INS" "$LLVM_OBJ"
