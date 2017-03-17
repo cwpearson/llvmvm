@@ -60,8 +60,6 @@ function llvmvm_rev_to_id() {
 }
 
 function llvmvm_get_llvm_url_for_id() {
-    echo "In bash function llvmvm_get_llvm_url_for_id"
-
     local svn_tag_url="http://llvm.org/svn/llvm-project/llvm/tags"
     local svn_trunk_url="http://llvm.org/svn/llvm-project/llvm/trunk"
 
@@ -79,8 +77,6 @@ function llvmvm_get_llvm_url_for_id() {
 }
 
 function llvmvm_get_clang_url_for_id() {
-    echo "In bash function llvmvm_get_clang_url_forid"
-
     local svn_tag_url="http://llvm.org/svn/llvm-project/cfe/tags"
     local svn_trunk_url="http://llvm.org/svn/llvm-project/cfe/trunk"
 
@@ -92,6 +88,38 @@ function llvmvm_get_clang_url_for_id() {
       local url="$svn_trunk_url"
     elif [[ "$LLVMVM_TAG" == "trunk" ]]; then
       local url="$svn_trunk_url"
+    fi
+
+    result="$url"
+}
+
+function llvmvm_get_rt_url_for_id() {
+    local svn_url="http://llvm.org/svn/llvm-project/compiler-rt"
+
+    llvmvm_split_id "$1"
+
+    if [[ "$LLVMVM_TAG" == "release" ]]; then
+      local url="$svn_url/tags/RELEASE_$LLVMVM_VER/$LLVMVM_REL"
+    elif [[ "$LLVMVM_TAG" == "r" ]]; then
+      local url="$svn_url/trunk"
+    elif [[ "$LLVMVM_TAG" == "trunk" ]]; then
+      local url="$svn_url/trunk"
+    fi
+
+    result="$url"
+}
+
+function llvmvm_get_omp_url_for_id() {
+    local svn_url="http://llvm.org/svn/llvm-project/openmp"
+
+    llvmvm_split_id "$1"
+
+    if [[ "$LLVMVM_TAG" == "release" ]]; then
+      local url="$svn_url/tags/RELEASE_$LLVMVM_VER/$LLVMVM_REL"
+    elif [[ "$LLVMVM_TAG" == "r" ]]; then
+      local url="$svn_url/trunk"
+    elif [[ "$LLVMVM_TAG" == "trunk" ]]; then
+      local url="$svn_url/trunk"
     fi
 
     result="$url"

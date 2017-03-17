@@ -58,6 +58,31 @@ download_clang_source() {
 		llvmvm_display_fatal "Couldn't download Clang source. Check $log"
 }
 
+download_rt_source() {
+	local rt_src="$1"
+	local rt_src_url="$2"
+	local log="$LLVMVM_ROOT/logs/rt-download.log"
+    mkdir -p "$LLVMVM_ROOT/logs"
+
+	llvmvm_display_message "Downloading compiler-rt source..."
+	echo "$rt_src_url > $rt_src"
+	svn co "$rt_src_url" "$rt_src" >> "$log"  2>&1 ||
+		llvmvm_display_fatal "Couldn't download compiler-rt source. Check $log"
+}
+
+download_libomp_source() {
+	local omp_src="$1"
+	local omp_src_url="$2"
+	local log="$LLVMVM_ROOT/logs/omp-download.log"
+    mkdir -p "$LLVMVM_ROOT/logs"
+
+	llvmvm_display_message "Downloading libomp source..."
+	echo "$omp_src_url > $omp_src"
+	svn co "$omp_src_url" "$omp_src" >> "$log"  2>&1 ||
+		llvmvm_display_fatal "Couldn't download libomp source. Check $log"
+}
+
+
 create_environment() {
 	local name="$1"
 	local new_env_file="$LLVMVM_ROOT/environments/$LLVM_ID"
@@ -148,12 +173,18 @@ LLVM_INS="$BASE/ins"
 
 if [ "$BINARY_INSTALL" = false ]; then
 	echo "Source install!"
-    llvmvm_get_llvm_url_for_id "$LLVM_ID" # sets 'result'
+    llvmvm_get_llvm_url_for_id "$LLVM_ID"
     LLVM_SOURCE_URL="$result"
-    llvmvm_get_clang_url_for_id "$LLVM_ID" # sets 'result'
+    llvmvm_get_clang_url_for_id "$LLVM_ID"
     CLANG_SOURCE_URL="$result"
+	llvmvm_get_rt_url_for_id "$LLVM_ID"
+    RT_SOURCE_URL="$result"
+    llvmvm_get_omp_url_for_id "$LLVM_ID"
+    OMP_SOURCE_URL="$result"
     download_llvm_source "$LLVM_SRC" "$LLVM_SOURCE_URL"
     download_clang_source "$LLVM_SRC/tools/clang" "$CLANG_SOURCE_URL"
+	download_rt_source "$LLVM_SRC/projects/compiler-rt" "$RT_SOURCE_URL"
+	download_libomp_source  "$LLVM_SRC/projects/openmp" "$OMP_SOURCE_URL"
     configure_source "$LLVM_INS" "$LLVM_OBJ" "$LLVM_SRC"
     build_source "$LLVM_OBJ"
     install_source "$LLVM_INS" "$LLVM_OBJ"
