@@ -44,7 +44,7 @@ script:
       travis_terminate 1;
     fi'
  - llvmvm list
- - llvmvm install 3.2-x86_64-linux-ubuntu-12.04 -n linux-3.2
+ - llvmvm install 3.2-x86_64-linux-ubuntu-12.04 -B -n linux-3.2
  - llvmvm use linux-3.2 --default
  - echo $PATH
  - 'if [[ ! `which llc` == *".llvmvm"* ]]; then
