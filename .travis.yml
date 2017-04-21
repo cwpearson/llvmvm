@@ -32,6 +32,7 @@ script:
  - ls $HOME/.llvmvm/llvms
  - echo $PATH
  - llvmvm use 3.2-x86_64-linux-ubuntu-12.04
+ - llvmvm use 3.2-x86_64-linux-ubuntu-12.04 --default
  - echo $PATH
  - 'if [[ ! `which llc` == *".llvmvm"* ]]; then
       echo `which llc`;
@@ -43,3 +44,11 @@ script:
       travis_terminate 1;
     fi'
  - llvmvm list
+ - llvmvm install 3.2-x86_64-linux-ubuntu-12.04 -n linux-3.2
+ - llvmvm use linux-3.2 --default
+ - echo $PATH
+ - 'if [[ ! `which llc` == *".llvmvm"* ]]; then
+      echo `which llc`;
+      travis_terminate 1;
+    fi'
+
