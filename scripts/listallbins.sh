@@ -7,7 +7,6 @@ set -eou pipefail
 URL="http://releases.llvm.org/download.html"
 HTML=`curl -s $URL`
 ALL_LINKS=`echo "$HTML" | grep href`
-echo $ALL_LINKS
 CLANG_LINKS=`echo "$ALL_LINKS" | grep -Eo "(llvm|clang)\+(llvm|clang)[^>]*.(g|x)z[^.]"`
 
 BASE_RE="(clang|llvm)\+(llvm|clang)-(.*)"

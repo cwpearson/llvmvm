@@ -27,10 +27,10 @@ function llvmvm_download_untar() {
   local dst=$1
   case "$link" in
     *.gz | *.tgz ) 
-      curl -s $link | tar -xz -C "$dest"
+      { curl -s $link | tar -xz -C "$dest"; } || llvmvm_display_fatal "Error1"
       ;;
     *.xz)
-      curl -s $link | tar -xJ -C "$dest"
+      { curl -s $link | tar -xJ -C "$dest"; } || llvmvm_display_fatal "Error2"
       ;;
     *)
       llvmvm_display_fatal "Don't know how to untar $link"
