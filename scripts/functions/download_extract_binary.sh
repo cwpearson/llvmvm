@@ -39,19 +39,19 @@ function llvmvm_download_untar() {
 }
 
 function llvmvm_download_extract_binary() {
-	local id="$2"
+  local id="$2"
   local dest="$1"
-	llvmvm_get_binary_link_for_id "$id"
-	link="$result"
-	echo "$link -> $dest"
+  llvmvm_get_binary_link_for_id "$id"
+  link="$result"
+  echo "$link -> $dest"
   mkdir -p "$dest"
-  llvmvm_download_untar "$dest" "$link"
+  llvmvm_download_untar "$dest" "$link" || llvmvm_display_fatal "error downloading and untaring"
 
   # Move to make consistent with source install structure
   for dir in $dest/*/*; do
-    mv $dir $dest/.
+    mv -v $dir $dest/.
   done
   for dir in `find $dest -type d -empty`; do # remove all empty dirs (the one tar created)
-    rmdir "$dir";
+    rmdir -v "$dir";
   done
 }

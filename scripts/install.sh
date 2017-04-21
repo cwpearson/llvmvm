@@ -205,19 +205,19 @@ if [ "$BINARY_INSTALL" = false ]; then
     RT_SOURCE_URL="$result"
     llvmvm_get_omp_url_for_id "$LLVM_ID"
     OMP_SOURCE_URL="$result"
-	CXX_SOURCE_URL=`llvmvm_get_libcxx_url_for_id "$LLVM_ID"`
-	CXXABI_SOURCE_URL=`llvmvm_get_libcxxabi_url_for_id "$LLVM_ID"`
+    CXX_SOURCE_URL=`llvmvm_get_libcxx_url_for_id "$LLVM_ID"`
+    CXXABI_SOURCE_URL=`llvmvm_get_libcxxabi_url_for_id "$LLVM_ID"`
     download_llvm_source "$LLVM_SRC" "$LLVM_SOURCE_URL"
     download_clang_source "$LLVM_SRC/tools/clang" "$CLANG_SOURCE_URL"
-	download_rt_source "$LLVM_SRC/projects/compiler-rt" "$RT_SOURCE_URL"
-	download_libomp_source  "$LLVM_SRC/projects/openmp" "$OMP_SOURCE_URL"
-	download_libcxx_source  "$LLVM_SRC/projects/libcxx" "$CXX_SOURCE_URL"
-	download_libcxxabi_source  "$LLVM_SRC/projects/libcxxabi" "$CXXABI_SOURCE_URL"
+    download_rt_source "$LLVM_SRC/projects/compiler-rt" "$RT_SOURCE_URL"
+    download_libomp_source  "$LLVM_SRC/projects/openmp" "$OMP_SOURCE_URL"
+    download_libcxx_source  "$LLVM_SRC/projects/libcxx" "$CXX_SOURCE_URL"
+    download_libcxxabi_source  "$LLVM_SRC/projects/libcxxabi" "$CXXABI_SOURCE_URL"
     configure_source "$LLVM_INS" "$LLVM_OBJ" "$LLVM_SRC"
     build_source "$LLVM_OBJ"
     install_source "$LLVM_INS" "$LLVM_OBJ"
 else
-	echo "Binary install!"
-    llvmvm_download_extract_binary "$LLVM_INS" "$LLVM_ID" 
+    echo "Binary install!"
+    llvmvm_download_extract_binary "$LLVM_INS" "$LLVM_ID" # use ID here to find the right URL
 fi
 create_environment "$LLVM_NAME"
