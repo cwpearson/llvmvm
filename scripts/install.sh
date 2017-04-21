@@ -140,10 +140,10 @@ configure_source() {
 	fi
 	CMAKE_FLAGS="$CMAKE_FLAGS -DCMAKE_INSTALL_PREFIX=$ins -B$obj -H$src"
 
-	llvmvm_display_message "Configuring LLVM... with $CMAKE_FLAGS"
+	llvmvm_display_message "Configuring LLVM with $CMAKE_FLAGS"
 	nice -n20 cmake $CMAKE_FLAGS >> "$LOG" 2>&1 ||
 		{
-			{ echo "" && tail "$LOG"; } ||
+			{ echo "" && tail "$LOG"; } &&
 			llvmvm_display_fatal "Couldn't configure LLVM. Tail of $LOG above."
 		}
 
@@ -155,7 +155,7 @@ build_source() {
 	llvmvm_display_message "Building LLVM..."
 	nice -n20 make -C $obj -j$(llvmvm_nproc) >> "$LOG" 2>&1 ||
 		{
-			{ echo "" && cat "$LOG"; } ||
+			{ echo "" && cat "$LOG"; } &&
 			llvmvm_display_fatal "Couldn't build LLVM. cat of $LOG above."
 		}
 }
@@ -189,10 +189,11 @@ fi
 llvmvm_get_path_for_name "${LLVM_NAME}" # sets 'result'
 LLVMVM_LLVM_PATH="$result"
 
-BASE="$LLVMVM_LLVM_PATH"
-LLVM_SRC="$BASE/src"
-LLVM_OBJ="$BASE/obj"
-LLVM_INS="$BASE/ins"
+echo "using llvm path $LLVMVM_LLVM_PATH"
+
+LLVM_SRC="$LLVMVM_LLVM_PATH/src"
+LLVM_OBJ="$LLVMVM_LLVM_PATH/obj"
+LLVM_INS="$LLVMVM_LLVM_PATH/ins"
 
 if [ "$BINARY_INSTALL" = false ]; then
 	echo "Source install!"

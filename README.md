@@ -3,6 +3,7 @@
 | master  | ![travis-master]  |
 |---------|-------------------|
 | develop | ![travis-develop] |
+
 [travis-master]: https://travis-ci.org/cwpearson/llvmvm.svg?branch=master
 [travis-develop]: https://travis-ci.org/cwpearson/llvmvm.svg?branch=develop
 
@@ -92,7 +93,7 @@ Choose a version to remove
     
     Available Options:
         -B,         Binary download
-        -c,         Override CMAKE flags
+        -c,         Override CMAKE flags (use more than once for multiple flags)
         -n,         Provide a custom name for an install
         --default,  (with 'use' command, sets an install as the default LLVM)
 
