@@ -15,7 +15,7 @@ function llvmvm_get_binary_link_for_id() {
     if [[ $clang_link == *"$id"* ]]; then
       if [[ "$id" =~ $ver_re ]]; then
         result="$RELEASE_URL/${BASH_REMATCH[1]}/$clang_link";
-        return
+        return 0
       fi
     fi
   done
