@@ -108,7 +108,7 @@ download_libcxxabi_source() {
 
 create_environment() {
 	local name="$1"
-	local new_env_file="$LLVMVM_ROOT/environments/$LLVM_ID"
+	local new_env_file="$LLVMVM_ROOT/environments/$name"
 
 	mkdir -p "$(dirname "$new_env_file")" && touch "$new_env_file"
 
