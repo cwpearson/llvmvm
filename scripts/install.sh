@@ -218,6 +218,6 @@ if [ "$BINARY_INSTALL" = false ]; then
     install_source "$LLVM_INS" "$LLVM_OBJ"
 else
     echo "Binary install!"
-    llvmvm_download_extract_binary "$LLVM_INS" "$LLVM_ID" # use ID here to find the right URL
+    llvmvm_download_extract_binary "$LLVM_INS" "$LLVM_ID" || llvmvm_display_fatal "error1"
 fi
-create_environment "$LLVM_NAME"
+create_environment "$LLVM_NAME" || llvmvm_display_fatal "error2"

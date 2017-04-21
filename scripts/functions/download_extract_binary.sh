@@ -49,9 +49,9 @@ function llvmvm_download_extract_binary() {
 
   # Move to make consistent with source install structure
   for dir in $dest/*/*; do
-    mv -v $dir $dest/.
+    mv $dir $dest/.
   done
   for dir in `find $dest -type d -empty`; do # remove all empty dirs (the one tar created)
-    rmdir -v "$dir";
+    rmdir "$dir";
   done
 }
