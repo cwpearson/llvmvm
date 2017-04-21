@@ -3,6 +3,7 @@
 | master  | ![travis-master]  |
 |---------|-------------------|
 | develop | ![travis-develop] |
+
 [travis-master]: https://travis-ci.org/cwpearson/llvmvm.svg?branch=master
 [travis-develop]: https://travis-ci.org/cwpearson/llvmvm.svg?branch=develop
 
